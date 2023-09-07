@@ -39,9 +39,7 @@
     let explosionData = d3.range(totalCircles).map(() => {
       // distance fron the center of the explosion determined at random
       // explosionSize (magnitude of the explosion) stays the same for each circle
-      let explosionDistance = await Math.sqrt(
-        ~~(chance.floating({ min: 0, max: 1 }) * explosionMagnitude * explosionMagnitude)
-      )
+      let explosionDistance = Math.sqrt(~~(Math.random() * explosionMagnitude * explosionMagnitude))
       // randomly determining the angle by which each circle will be relative to the center of the explosion
       let randomAngle = Math.random() * 2 * Math.PI
 
@@ -52,8 +50,8 @@
       }
     })
 
-    let randomPalette = palettes[chance.integer({ min: 0, max: palettes.length })]
-    let launchColor = randomPalette[chance.integer({ min: 0, max: randomPalette.length })]
+    let randomPalette = await palettes[chance.integer({ min: 0, max: palettes.length })]
+    let launchColor = await randomPalette[chance.integer({ min: 0, max: randomPalette.length })]
     let fireWorkPaletteFunc = d3
       .scaleOrdinal()
       .domain([Math.min(explosionData.x), Math.max(explosionData.x)])
