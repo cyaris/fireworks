@@ -149,18 +149,6 @@
   let height
 </script>
 
-<div class="no_selection non_reactive" id="fireworks_wrapper" bind:clientWidth={width} bind:clientHeight={height}>
+<div class="no_selection non_reactive fixed top-0 left-0 w-full h-full z-50" bind:clientWidth={width} bind:clientHeight={height}>
   <svg id="fireworks" {width} {height} />
 </div>
-<svelte:head>
-  <style>
-    #fireworks_wrapper {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 99;
-    }
-  </style>
-</svelte:head>
