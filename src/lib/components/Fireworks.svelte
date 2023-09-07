@@ -50,8 +50,8 @@
       }
     })
 
-    let randomPalette = await palettes[chance.integer({ min: 0, max: palettes.length })]
-    let launchColor = await randomPalette[chance.integer({ min: 0, max: randomPalette.length })]
+    let randomPalette = palettes[Math.floor(Math.random() * palettes.length)]
+    let launchColor = randomPalette[Math.floor(Math.random() * randomPalette.length)]
     let fireWorkPaletteFunc = d3
       .scaleOrdinal()
       .domain([Math.min(explosionData.x), Math.max(explosionData.x)])
