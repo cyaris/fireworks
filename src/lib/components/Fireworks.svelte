@@ -11,6 +11,7 @@
   $: {
     if ($mounted && !test) {
       launchFireworkBurst()
+      launchFireworkShow(10, 25, 2500)
     }
   }
   // credit is due to this blocks page for the process defined below: http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5
