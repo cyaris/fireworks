@@ -1,4 +1,4 @@
-l{
+{
   "name": "fireworks",
   "version": "0.0.1",
   "type": "module",
@@ -26,7 +26,5 @@ l{
   ],
   "dependencies": {
     "svelte-lib": "file:../svelte-lib"
-  },
-  "devDependencies": {
   }
 }

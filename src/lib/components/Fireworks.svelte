@@ -112,7 +112,7 @@
       .style("opacity", 0)
       .attr("cx", d => (d.x > launchXLoc ? d.x + (d.x - launchXLoc) : d.x - (-d.x + launchXLoc)))
       .attr("cy", d => (d.y > explosionYLoc ? d.y + (d.y - explosionYLoc) : d.y - (-d.y + explosionYLoc)))
-      .on("end", d => document.getElementById( d.id).remove())
+      .on("end", d => document.getElementById(d.id).remove())
   }
 
   function launchFireworkShow(totalFireworksMain, totalFireworksFinale, randomIntervalMsInput) {
