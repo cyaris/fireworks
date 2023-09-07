@@ -54,7 +54,7 @@
     let launchColor = randomPalette[chance.integer({ min: 0, max: randomPalette.length })]
     let fireWorkPaletteFunc = d3
       .scaleOrdinal()
-      .domain([Math.min(explosionData["x"]), Math.max(explosionData["x"])])
+      .domain([Math.min(explosionData.x), Math.max(explosionData.x)])
       .range(randomPalette)
 
     let launchRadius = 3
