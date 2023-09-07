@@ -11,46 +11,55 @@ import tailwindcss from "tailwindcss"
 import tailwindConfig from "./tailwind.config.cjs"
 import addScopedClass from "./add-scoped-class-plugin.cjs"
 
-const config = {
+const plugins = [
+  svelte({
+    emitCss: true,
+  }),
+  postcss({
+    plugins: [addScopedClass(), tailwindcss(tailwindConfig)],
+    extract: true,
+    minimize: true,
+    config: {
+      path: "./postcss.config.cjs",
+    },
+    extensions: [".css"],
+    // inject: {
+    //   insertAt: "top",
+    // },
+    sourceMap: false,
+  }),
+  resolve({
+    browser: true,
+    dedupe: ["svelte"],
+    exportConditions: ["svelte"],
+    extensions: [".svelte"],
+  }),
+  commonjs(),
+  url({
+    include: ["**/*.gif"],
+    limit: 0, // set to 0 to embed all .gif files as base64 data URLs
+    emitFiles: false,
+  }),
+  svg(),
+  image(),
+  progress()
+]
+
+const config = [{
   input: "./src/main.js",
   output: {
     format: "iife",
     file: "dist/bundle.js",
   },
-  plugins: [
-    svelte({
-      emitCss: true,
-    }),
-    postcss({
-      plugins: [addScopedClass(), tailwindcss(tailwindConfig)],
-      extract: true,
-      minimize: true,
-      config: {
-        path: "./postcss.config.cjs",
-      },
-      extensions: [".css"],
-      // inject: {
-      //   insertAt: "top",
-      // },
-      sourceMap: false,
-    }),
-    resolve({
-      browser: true,
-      dedupe: ["svelte"],
-      exportConditions: ["svelte"],
-      extensions: [".svelte"],
-    }),
-    commonjs(),
-    url({
-      include: ["**/*.gif"],
-      limit: 0, // set to 0 to embed all .gif files as base64 data URLs
-      emitFiles: false,
-    }),
-    svg(),
-    image(),
-    progress(),
-  ],
-}
+  plugins: plugins,
+},{
+  input: "./src/main2.js",
+  output: {
+    format: "iife",
+    file: "dist/bundle2.js",
+  },
+  plugins: plugins,
+}]
 
 console.log(config)
 export default config

@@ -1,7 +1,6 @@
 import * as d3 from "d3"
 import Chance from "chance"
 
-import { mounted } from "svelte-lib/stores/utils"
 import { palettes } from "../palettes.js"
 
 const chance = new Chance()
