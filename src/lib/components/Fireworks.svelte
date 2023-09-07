@@ -150,11 +150,12 @@
   let height
 </script>
 
-<svelte:window bind:innerWidth={width} bind:innerHeight={height} />
-<svg class="no_selection non_reactive" id="fireworks" />
+<div class="no_selection non_reactive" id="fireworks_wrapper" bind:clientWidth={width} bind:clientHeight={height}>
+  <svg id="fireworks" {width} {height} />
+</div>
 <svelte:head>
   <style>
-    #fireworks {
+    #fireworks_wrapper {
       position: fixed;
       top: 0;
       left: 0;
