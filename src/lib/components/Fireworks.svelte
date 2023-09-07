@@ -20,9 +20,8 @@
     let explosionYLoc = LaunchYLoc + explosionDrop
     // defining values for the launch of the firework
     // function below will be used to determine the x location for launching the rocket
-    let randomXStart = d3.randomNormal(width / 2, width / 8)
     // x coordinate for the ascending (and descending) rocket
-    let launchXLoc = randomXStart()
+    let launchXLoc = d3.randomNormal(width / 2, width / 8)()
     // determining the magnitude of the explosion (value to be squared) at random
     // the actual distance from the explosion will be a combination of this value and another random value determined for each piece
     // this will also be used to decide the total circles for the explosion
