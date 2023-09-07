@@ -76,7 +76,7 @@
       .style("fill", launchColor)
       .style("opacity", (d, i) => (i > 0 && i <= fireWorkTailSize ? 0.15 : 1))
       .transition()
-      // delay here is to create the ascending tail
+      // delay here is to create the ascending tail.
       .delay((d, i) => (i <= fireWorkTailSize ? i * tailDelaySize : 0))
       .ease(d3.easeCircle)
       .duration(launchDuration)
@@ -87,7 +87,7 @@
       .attr("r", 5)
       .attr("cy", explosionYLoc)
       .transition()
-      // delay here is to allow all objects to catch up
+      // delay here is to allow all objects to catch up.
       .delay((d, i) =>
         i > 0 && i <= fireWorkTailSize
           ? fireWorkTailSize * tailDelaySize - i * tailDelaySize
@@ -113,6 +113,7 @@
         d3.select(this).remove()
       })
   }
+
 
   function launchFireworkShow(totalFireworksMain, totalFireworksFinale, randomIntervalMsInput) {
     // totalFireworksMain: total fireworks in the regular show
