@@ -1,4 +1,4 @@
-import Router from "./lib/components/Router.svelte"
+import Fireworks from "./lib/components/Fireworks.svelte"
 
 import "../node_modules/svelte-lib/src/lib/static/styles/root.css"
 import "../node_modules/svelte-lib/src/lib/static/styles/app.css"
@@ -9,6 +9,6 @@ div.classList.add("fireworks")
 let script = document.currentScript
 script.parentNode.insertBefore(div, script)
 
-new Router({
+new Fireworks({
   target: div,
 })
