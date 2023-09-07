@@ -42,24 +42,27 @@ const plugins = [
   }),
   svg(),
   image(),
-  progress()
+  progress(),
 ]
 
-const config = [{
-  input: "./src/main.js",
-  output: {
-    format: "iife",
-    file: "dist/bundle.js",
+const config = [
+  {
+    input: "./src/main.js",
+    output: {
+      format: "iife",
+      file: "dist/bundle.js",
+    },
+    plugins: plugins,
   },
-  plugins: plugins,
-},{
-  input: "./src/main2.js",
-  output: {
-    format: "iife",
-    file: "dist/bundle2.js",
+  {
+    input: "./src/main2.js",
+    output: {
+      format: "es",
+      file: "dist/bundle2.js",
+    },
+    plugins: plugins,
   },
-  plugins: plugins,
-}]
+]
 
 console.log(config)
 export default config
