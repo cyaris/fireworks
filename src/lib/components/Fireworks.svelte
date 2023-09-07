@@ -129,19 +129,15 @@
       // subtracting one from totalFireworksMain so that the first firework comes without any delay.
       let regularShowMinDuration = fireworkIntervalMain * (totalFireworksMain - 1)
       // all fireworks for the regular show
-      if (i <= totalFireworksMain) {
-        d3.timeout(launchFireworkBurst, Math.max(0, fireworkIntervalMain * i + randomInterval))
-      }
-      // time for the grand finale!!!
-      else {
-        d3.timeout(
-          launchFireworkBurst,
-          Math.max(
-            regularShowMinDuration - randomIntervalMsInput,
-            regularShowMinDuration + fireWorkIntervalFinale * (i - (totalFireworksMain - 1)) + randomInterval
-          )
-        )
-      }
+      d3.timeout(
+        launchFireworkBurst,
+        i <= totalFireworksMain
+          ? Math.max(0, fireworkIntervalMain * i + randomInterval)
+          : Math.max(
+              regularShowMinDuration - randomIntervalMsInput,
+              regularShowMinDuration + fireWorkIntervalFinale * (i - (totalFireworksMain - 1)) + randomInterval
+            )
+      )
     }
   }
 
@@ -149,6 +145,10 @@
   let height
 </script>
 
-<div class="no_selection non_reactive fixed top-0 left-0 w-full h-full z-50" bind:clientWidth={width} bind:clientHeight={height}>
+<div
+  class="no_selection non_reactive fixed top-0 left-0 w-full h-full z-50"
+  bind:clientWidth={width}
+  bind:clientHeight={height}
+>
   <svg id="fireworks" {width} {height} />
 </div>
