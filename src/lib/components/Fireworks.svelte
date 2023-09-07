@@ -11,7 +11,7 @@
   $: {
     if ($mounted && !test) {
       launchFireworkBurst()
-      launchFireworkShow(10, 25, 2500)
+      // launchFireworkShow(10, 25, 2500)
     }
   }
   // credit is due to this blocks page for the process defined below: http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5
@@ -46,6 +46,7 @@
       let randomAngle = Math.random() * 2 * Math.PI
 
       return {
+        id: crypto.randomUUID(),
         x: launchXLoc + explosionDistance * Math.cos(randomAngle),
         y: explosionYLoc + explosionDistance * Math.sin(randomAngle),
       }
@@ -71,6 +72,7 @@
       .data(explosionData)
       .enter()
       .append("circle")
+      .attr("id", d => d.id)
       .attr("r", launchRadius)
       .attr("cx", launchXLoc)
       .attr("cy", height + launchRadius)
@@ -110,11 +112,8 @@
       .style("opacity", 0)
       .attr("cx", d => (d.x > launchXLoc ? d.x + (d.x - launchXLoc) : d.x - (-d.x + launchXLoc)))
       .attr("cy", d => (d.y > explosionYLoc ? d.y + (d.y - explosionYLoc) : d.y - (-d.y + explosionYLoc)))
-      .on("end", () => {
-        d3.select(this).remove()
-      })
+      .on("end", d => d3.select("#" + d.id).remove())
   }
-
 
   function launchFireworkShow(totalFireworksMain, totalFireworksFinale, randomIntervalMsInput) {
     // totalFireworksMain: total fireworks in the regular show
