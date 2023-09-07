@@ -8,8 +8,13 @@
   const chance = new Chance()
 
   let test = false
+  let getLaunchXLoc
   $: {
-    if ($mounted && !test) {
+    if (width) {
+      // function below will be used to determine the x location for launching the rocket
+      getLaunchXLoc = d3.randomNormal(width / 2, width / 8)
+    }
+    if ($mounted && !test && width) {
       // launchFireworkBurst()
       launchFireworkShow(10, 25, 2500)
     }
@@ -19,16 +24,15 @@
   async function launchFireworkBurst() {
     // defining y parameter for the height of the launch
     // the is the distance from the top of the pange
-    let LaunchYLoc = await chance.floating({ min: height * 0.1, max: height * 0.2 })
+    let launchYLoc = await chance.floating({ min: height * 0.1, max: height * 0.2 })
     // defining adjusted y parameter for delay preceding explosion
     // new height adjusting for the distance by which the rocket will descend after reaching its peak (prior to exploding)
     let explosionDrop = await chance.floating({ min: 20, max: 130 })
     // height all the circles will be at after the drop (and just before exploding)
-    let explosionYLoc = LaunchYLoc + explosionDrop
+    let explosionYLoc = launchYLoc + explosionDrop
     // defining values for the launch of the firework
-    // function below will be used to determine the x location for launching the rocket
     // x coordinate for the ascending (and descending) rocket
-    let launchXLoc = d3.randomNormal(width / 2, width / 8)()
+    let launchXLoc = getLaunchXLoc()
     // determining the magnitude of the explosion (value to be squared) at random
     // the actual distance from the explosion will be a combination of this value and another random value determined for each piece
     // this will also be used to decide the total circles for the explosion
@@ -51,7 +55,7 @@
     })
 
     let randomPalette = palettes[Math.floor(Math.random() * palettes.length)]
-    let launchColor = randomPalette[Math.floor(Math.random() * randomPalette.length)]
+
     let fireWorkPaletteFunc = d3
       .scaleOrdinal()
       .domain([Math.min(explosionData.x), Math.max(explosionData.x)])
@@ -59,8 +63,7 @@
 
     let launchRadius = 3
     let launchDuration = 1000
-    let launchSpeed = launchDuration / (height + launchRadius - LaunchYLoc)
-    let dropDuration = launchSpeed * explosionDrop
+    let launchSpeed = launchDuration / (height + launchRadius - launchYLoc)
     // these two variables will help create the tail effect with delay
     let fireWorkTailSize = 90
     let tailDelaySize = 2.5
@@ -74,16 +77,16 @@
       .attr("r", launchRadius)
       .attr("cx", launchXLoc)
       .attr("cy", height + launchRadius)
-      .style("fill", launchColor)
+      .style("fill", randomPalette[Math.floor(Math.random() * randomPalette.length)])
       .style("opacity", (d, i) => (i > 0 && i <= fireWorkTailSize ? 0.15 : 1))
       .transition()
       // delay here is to create the ascending tail.
       .delay((d, i) => (i <= fireWorkTailSize ? i * tailDelaySize : 0))
       .ease(d3.easeCircle)
       .duration(launchDuration)
-      .attr("cy", LaunchYLoc)
+      .attr("cy", launchYLoc)
       .transition()
-      .duration(dropDuration)
+      .duration(launchSpeed * explosionDrop)
       .ease(d3.easeQuad)
       .attr("r", 5)
       .attr("cy", explosionYLoc)
