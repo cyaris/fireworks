@@ -10,19 +10,19 @@
   let test = false
   $: {
     if ($mounted && !test) {
-      launchFireworkBurst()
-      // launchFireworkShow(10, 25, 2500)
+      // launchFireworkBurst()
+      launchFireworkShow(10, 25, 2500)
     }
   }
   // credit is due to this blocks page for the process defined below: http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5
   // I took what was there, made adjustments on preference/version differences, and added to it.
-  function launchFireworkBurst() {
+  async function launchFireworkBurst() {
     // defining y parameter for the height of the launch
     // the is the distance from the top of the pange
-    let LaunchYLoc = chance.floating({ min: height * 0.1, max: height * 0.2 })
+    let LaunchYLoc = await chance.floating({ min: height * 0.1, max: height * 0.2 })
     // defining adjusted y parameter for delay preceding explosion
     // new height adjusting for the distance by which the rocket will descend after reaching its peak (prior to exploding)
-    let explosionDrop = chance.floating({ min: 20, max: 130 })
+    let explosionDrop = await chance.floating({ min: 20, max: 130 })
     // height all the circles will be at after the drop (and just before exploding)
     let explosionYLoc = LaunchYLoc + explosionDrop
     // defining values for the launch of the firework
@@ -32,14 +32,14 @@
     // determining the magnitude of the explosion (value to be squared) at random
     // the actual distance from the explosion will be a combination of this value and another random value determined for each piece
     // this will also be used to decide the total circles for the explosion
-    let explosionMagnitude = chance.floating({ min: 140, max: 180 })
+    let explosionMagnitude = await chance.floating({ min: 140, max: 180 })
     // total circles for the explosion
     let totalCircles = Math.round(explosionMagnitude * 1.5)
     // function to determine the x coordinates for all explosion pieces
     let explosionData = d3.range(totalCircles).map(() => {
       // distance fron the center of the explosion determined at random
       // explosionSize (magnitude of the explosion) stays the same for each circle
-      let explosionDistance = Math.sqrt(
+      let explosionDistance = await Math.sqrt(
         ~~(chance.floating({ min: 0, max: 1 }) * explosionMagnitude * explosionMagnitude)
       )
       // randomly determining the angle by which each circle will be relative to the center of the explosion
