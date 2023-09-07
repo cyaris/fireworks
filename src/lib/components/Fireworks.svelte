@@ -2,7 +2,7 @@
   import * as d3 from "d3"
   import Chance from "chance"
 
-  import { mounted } from "svelte-lib/stores/utils"
+  // import { mounted } from "svelte-lib/stores/utils"
   import { palettes } from "$lib/palettes.js"
 
   const chance = new Chance()
@@ -13,10 +13,12 @@
     if (width) {
       // function below will be used to determine the x location for launching the rocket
       getLaunchXLoc = d3.randomNormal(width / 2, width / 8)
-    }
-    if ($mounted && !test && width) {
-      // launchFireworkBurst()
-      launchFireworkShow(10, 25, 2500)
+
+      if (!test) {
+        // launchFireworkBurst()
+        launchFireworkShow(10, 25, 2500)
+        test = true
+      }
     }
   }
   // credit is due to this blocks page for the process defined below: http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5
