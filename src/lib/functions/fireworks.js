@@ -7,11 +7,11 @@ import { palettes } from "../palettes.js"
 export function launchFireworkBurst() {
   let width = d3.select("#fireworks").node().clientWidth
   let height = d3.select("#fireworks").node().clientHeight
-
-    let launchYMin = height * 0.1
   // defining y parameter for the height of the launch
+  // the lowest possible launch height.
+  let launchYMin = height * 0.1
   // the is the distance from the top of the pange
-  let launchYLoc =  launchYMin * Math.random() + launchYMin
+  let launchYLoc = launchYMin * Math.random() + launchYMin
   // defining adjusted y parameter for delay preceding explosion
   // new height adjusting for the distance by which the rocket will descend after reaching its peak (prior to exploding)
   let explosionDrop = Math.random() * 90 + 20
