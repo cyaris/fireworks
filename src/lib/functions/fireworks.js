@@ -1,21 +1,20 @@
 import * as d3 from "d3"
-import Chance from "chance"
 
 import { palettes } from "../palettes.js"
 
-const chance = new Chance()
-
 // credit is due to this blocks page for the process defined below: http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5
 // I took what was there, made adjustments on preference/version differences, and added to it.
-export async function launchFireworkBurst() {
+export function launchFireworkBurst() {
   let width = d3.select("#fireworks").node().clientWidth
   let height = d3.select("#fireworks").node().clientHeight
+
+    let launchYMin = height * 0.1
   // defining y parameter for the height of the launch
   // the is the distance from the top of the pange
-  let launchYLoc = await chance.floating({ min: height * 0.1, max: height * 0.2 })
+  let launchYLoc =  launchYMin * Math.random() + launchYMin
   // defining adjusted y parameter for delay preceding explosion
   // new height adjusting for the distance by which the rocket will descend after reaching its peak (prior to exploding)
-  let explosionDrop = await chance.floating({ min: 20, max: 130 })
+  let explosionDrop = Math.random() * 90 + 20
   // height all the circles will be at after the drop (and just before exploding)
   let explosionYLoc = launchYLoc + explosionDrop
   // function below will be used to determine the x location for launching the rocket
@@ -26,7 +25,7 @@ export async function launchFireworkBurst() {
   // determining the magnitude of the explosion (value to be squared) at random
   // the actual distance from the explosion will be a combination of this value and another random value determined for each piece
   // this will also be used to decide the total circles for the explosion
-  let explosionMagnitude = await chance.floating({ min: 140, max: 180 })
+  let explosionMagnitude = Math.random() * 40 + 140
   // total circles for the explosion
   let totalCircles = Math.round(explosionMagnitude * 1.5)
   // function to determine the x coordinates for all explosion pieces
@@ -98,7 +97,7 @@ export async function launchFireworkBurst() {
     // .attr('r', function(d) { return chance.floating({ min: 0.5, max: 15 }); })
     .style("fill", d => fireWorkPaletteFunc(d.x))
     .transition()
-    .duration(1750 + chance.floating({ min: -750, max: 750 }))
+    .duration(Math.random() * 1500 + 1000)
     .ease(d3.easeCircle)
     .style("opacity", 0)
     .attr("cx", d => (d.x > launchXLoc ? d.x + (d.x - launchXLoc) : d.x - (-d.x + launchXLoc)))
@@ -117,7 +116,7 @@ export function launchFireworkShow(totalFireworksMain, totalFireworksFinale, ran
 
   for (var i = 0; i <= totalFireworksMain + totalFireworksFinale - 1; i++) {
     // setting random variable manually for first iteration only.
-    let randomInterval = i == 0 ? 0.5 : chance.floating({ min: -randomIntervalMsInput, max: randomIntervalMsInput })
+    let randomInterval = i == 0 ? 0.5 : Math.random() * 2 * randomIntervalMsInput - randomIntervalMsInput
     // subtracting one from totalFireworksMain so that the first firework comes without any delay.
     let regularShowMinDuration = fireworkIntervalMain * (totalFireworksMain - 1)
     // all fireworks for the regular show
