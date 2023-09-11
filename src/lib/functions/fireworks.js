@@ -1,6 +1,6 @@
 import * as d3 from "d3"
 
-import { palettes } from "$lib/palettes.js"
+import { default as palettes } from "../palettes.js"
 
 // credit is due to this blocks page for the process defined below: http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5
 // I took what was there, made adjustments on preference/version differences, and added to it.
