@@ -1,7 +1,7 @@
-import Router from "./lib/components/Router.svelte"
+import { FireworkCanvas } from "./lib/components"
 
-import "../node_modules/svelte-lib/src/lib/static/styles/root.css"
-import "../node_modules/svelte-lib/src/lib/static/styles/app.css"
+import "svelte-lib/styles/root.css"
+import "svelte-lib/styles/app.css"
 
 let div = document.createElement("div")
 div.classList.add("fireworks")
@@ -9,6 +9,6 @@ div.classList.add("fireworks")
 let script = document.currentScript
 script.parentNode.insertBefore(div, script)
 
-new Router({
+new FireworkCanvas({
   target: div,
 })

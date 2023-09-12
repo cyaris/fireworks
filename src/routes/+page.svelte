@@ -1,5 +1,5 @@
 <script>
-  import { Fireworks } from "$lib/components"
+  import { FireworkShow } from "$lib/components"
 </script>
 
-<Fireworks />
+<FireworkShow />

@@ -1,4 +1,4 @@
-export const palettes = [
+const palettes = [
   // Astrid Gen Wyatt Shyla Cynthia Color Palette: https://www.color-hex.com/color-palette/104729
   // ['#1ecf25', '#9419e6', '#fcd300', '#30cf89', '#19cde6']
   // Beach Color Palette: https://www.color-hex.com/color-palette/895
@@ -104,3 +104,5 @@ export const palettes = [
   //		// adjusted above to remove one or more colors
   ["#f53473", "#93135d", "#5595c1", "#77def1"],
 ]
+
+export default palettes
