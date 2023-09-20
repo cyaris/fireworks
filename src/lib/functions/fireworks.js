@@ -59,12 +59,9 @@ export function launchFireworkBurst() {
     let fireWorkTailSize = 90
     let tailDelaySize = 2.5
 
-    let id = crypto.randomUUID()
-
     let circles = d3
       .select("#fireworks")
       .append("g")
-      .attr("id", id)
       .selectAll()
       .data(explosionData)
       .enter()
