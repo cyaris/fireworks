@@ -61,7 +61,7 @@ export function launchFireworkBurst() {
 
     let id = crypto.randomUUID()
 
-    let fireworks = d3
+    let circles = d3
       .select("#fireworks")
       .append("g")
       .attr("id", id)
@@ -75,7 +75,7 @@ export function launchFireworkBurst() {
       .style("fill", randomPalette[Math.floor(Math.random() * randomPalette.length)])
       .style("opacity", (d, i) => (i > 0 && i <= fireWorkTailSize ? 0.15 : 1))
 
-    fireworks
+    circles
       .transition()
       // delay here is to create the ascending tail.
       .delay((d, i) => (i <= fireWorkTailSize ? i * tailDelaySize : 0))
@@ -89,11 +89,7 @@ export function launchFireworkBurst() {
       .attr("cy", explosionYLoc)
       .transition()
       // delay here is to allow all objects to catch up.
-      .delay((d, i) =>
-        i > 0 && i <= fireWorkTailSize
-          ? fireWorkTailSize * tailDelaySize - i * tailDelaySize
-          : fireWorkTailSize * tailDelaySize
-      )
+      .delay((d, i) => fireWorkTailSize * tailDelaySize - (i <= fireWorkTailSize ? i * tailDelaySize : 0))
       .duration(0)
       .style("opacity", 1)
       .transition()
@@ -108,8 +104,8 @@ export function launchFireworkBurst() {
       .duration(Math.random() * 1500 + 1000)
       .ease(d3.easeCircle)
       .style("opacity", 0)
-      .attr("cx", d => (d.x > launchXLoc ? d.x + (d.x - launchXLoc) : d.x - (-d.x + launchXLoc)))
-      .attr("cy", d => (d.y > explosionYLoc ? d.y + (d.y - explosionYLoc) : d.y - (-d.y + explosionYLoc)))
+      .attr("cx", d => d.x + (d.x > launchXLoc ? d.x - launchXLoc : -(-d.x + launchXLoc)))
+      .attr("cy", d => d.y + (d.y > explosionYLoc ? d.y - explosionYLoc : -(-d.y + explosionYLoc)))
       .on("end", () => fireworks.remove())
   }
 }
