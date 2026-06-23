@@ -32,7 +32,7 @@ export function launchFireworkBurst() {
     // total circles for the explosion
     let totalCircles = Math.round(explosionMagnitude * 1.5)
     // function to determine the x coordinates for all explosion pieces
-    let explosionData = d3.range(totalCircles).map(() => {
+    let explosionData = Array.from({ length: totalCircles }, (_, index) => index).map(i => {
       // distance fron the center of the explosion determined at random
       // explosionSize (magnitude of the explosion) stays the same for each circle
       let explosionDistance = Math.sqrt(~~(Math.random() * explosionMagnitude * explosionMagnitude))
@@ -40,6 +40,7 @@ export function launchFireworkBurst() {
       let randomAngle = Math.random() * 2 * Math.PI
 
       return {
+        i: i,
         x: launchXLoc + explosionDistance * Math.cos(randomAngle),
         y: explosionYLoc + explosionDistance * Math.sin(randomAngle),
       }
@@ -59,12 +60,9 @@ export function launchFireworkBurst() {
     let fireWorkTailSize = 90
     let tailDelaySize = 2.5
 
-    let id = crypto.randomUUID()
-
-    let fireworks = d3
+    let circles = d3
       .select("#fireworks")
       .append("g")
-      .attr("id", id)
       .selectAll()
       .data(explosionData)
       .enter()
@@ -73,12 +71,12 @@ export function launchFireworkBurst() {
       .attr("cx", launchXLoc)
       .attr("cy", height + launchRadius)
       .style("fill", randomPalette[Math.floor(Math.random() * randomPalette.length)])
-      .style("opacity", (d, i) => (i > 0 && i <= fireWorkTailSize ? 0.15 : 1))
+      .style("opacity", d => (d.i > 0 && d.i <= fireWorkTailSize ? 0.15 : 1))
 
-    fireworks
+    circles
       .transition()
-      // delay here is to create the ascending tail.
-      .delay((d, i) => (i <= fireWorkTailSize ? i * tailDelaySize : 0))
+      // added delay varying by circle to create the tail.
+      .delay(d => (d.i <= fireWorkTailSize ? d.i * tailDelaySize : 0))
       .ease(d3.easeCircle)
       .duration(launchDuration)
       .attr("cy", launchYLoc)
@@ -89,11 +87,7 @@ export function launchFireworkBurst() {
       .attr("cy", explosionYLoc)
       .transition()
       // delay here is to allow all objects to catch up.
-      .delay((d, i) =>
-        i > 0 && i <= fireWorkTailSize
-          ? fireWorkTailSize * tailDelaySize - i * tailDelaySize
-          : fireWorkTailSize * tailDelaySize
-      )
+      .delay(d => fireWorkTailSize * tailDelaySize - (d.i <= fireWorkTailSize ? d.i * tailDelaySize : 0))
       .duration(0)
       .style("opacity", 1)
       .transition()
@@ -102,15 +96,14 @@ export function launchFireworkBurst() {
       .attr("cx", d => d.x)
       .attr("cy", d => d.y)
       .attr("r", 10)
-      // .attr('r', function(d) { return chance.floating({ min: 0.5, max: 15 }); })
       .style("fill", d => fireWorkPaletteFunc(d.x))
       .transition()
       .duration(Math.random() * 1500 + 1000)
       .ease(d3.easeCircle)
       .style("opacity", 0)
-      .attr("cx", d => (d.x > launchXLoc ? d.x + (d.x - launchXLoc) : d.x - (-d.x + launchXLoc)))
-      .attr("cy", d => (d.y > explosionYLoc ? d.y + (d.y - explosionYLoc) : d.y - (-d.y + explosionYLoc)))
-      .on("end", () => fireworks.remove())
+      .attr("cx", d => d.x + (d.x > launchXLoc ? d.x - launchXLoc : -(-d.x + launchXLoc)))
+      .attr("cy", d => d.y + (d.y > explosionYLoc ? d.y - explosionYLoc : -(-d.y + explosionYLoc)))
+      .on("end", () => circles.remove())
   }
 }
 
