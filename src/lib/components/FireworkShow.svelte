@@ -1,7 +1,7 @@
 <script>
   import { mounted } from "svelte-lib/stores/utils"
-  import { launchFireworkShow } from "$lib/functions"
-  import { FireworkCanvas } from "$lib/components"
+  import { launchFireworkShow } from "../functions"
+  import FireworkCanvas from "./FireworkCanvas.svelte"
 
   export let totalFireworksMain = 75
   export let totalFireworksFinale = 25
