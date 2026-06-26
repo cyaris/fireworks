@@ -1,7 +1,7 @@
 import { FireworkCanvas } from "./lib/components"
 
-import "../node_modules/svelte-lib/src/lib/static/styles/app.css"
-import "../node_modules/svelte-lib/src/lib/static/styles/root.css"
+import "svelte-lib/styles/app.css"
+import "svelte-lib/styles/root.css"
 
 let div = document.createElement("div")
 div.classList.add("fireworks")
