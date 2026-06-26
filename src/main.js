@@ -9,6 +9,4 @@ div.classList.add("fireworks")
 let script = document.currentScript
 script.parentNode.insertBefore(div, script)
 
-new FireworkCanvas({
-  target: div,
-})
+new FireworkCanvas({ target: div })
