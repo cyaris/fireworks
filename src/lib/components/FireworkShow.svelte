@@ -12,9 +12,7 @@
   let mounted = false
   let hasLaunched = false
 
-  onMount(() => (
-    mounted = true
-  ))
+  onMount(() => (mounted = true))
 
   $: {
     if (mounted && fireworkShow && !hasLaunched) {
