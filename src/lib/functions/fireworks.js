@@ -1,11 +1,17 @@
-import * as d3 from "d3"
+import "d3-transition"
+
+import { easeCircle, easeQuad } from "d3-ease"
+import { randomNormal } from "d3-random"
+import { select } from "d3-selection"
+import { timeout } from "d3-timer"
 
 import palettes from "../static/palettes.json"
 
 // credit is due to this blocks page for the process defined below: http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5
 // I took what was there, made adjustments on preference/version differences, and added to it.
 export function launchFireworkBurst() {
-  let node = d3.select("#fireworks").node()
+  let fireworks = select("#fireworks")
+  let node = fireworks.node()
   let width = node.clientWidth
   let height = node.clientHeight
 
@@ -21,7 +27,7 @@ export function launchFireworkBurst() {
     // height all the circles will be at after the drop (and just before exploding)
     let explosionYLoc = launchYLoc + explosionDrop
     // function below will be used to determine the x location for launching the rocket
-    let getLaunchXLoc = d3.randomNormal(width / 2, width / 8)
+    let getLaunchXLoc = randomNormal(width / 2, width / 8)
     // defining values for the launch of the firework
     // x coordinate for the ascending (and descending) rocket
     let launchXLoc = getLaunchXLoc()
@@ -48,10 +54,7 @@ export function launchFireworkBurst() {
 
     let randomPalette = palettes[Math.floor(Math.random() * palettes.length)]
 
-    let fireWorkPaletteFunc = d3
-      .scaleOrdinal()
-      .domain([Math.min(explosionData.x), Math.max(explosionData.x)])
-      .range(randomPalette)
+    let getFireworkColor = d => randomPalette[d.i % randomPalette.length]
 
     let launchRadius = 3
     let launchDuration = 1000
@@ -60,8 +63,7 @@ export function launchFireworkBurst() {
     let fireWorkTailSize = 90
     let tailDelaySize = 2.5
 
-    let circles = d3
-      .select("#fireworks")
+    let circles = fireworks
       .append("g")
       .selectAll()
       .data(explosionData)
@@ -77,12 +79,12 @@ export function launchFireworkBurst() {
       .transition()
       // added delay varying by circle to create the tail.
       .delay(d => (d.i <= fireWorkTailSize ? d.i * tailDelaySize : 0))
-      .ease(d3.easeCircle)
+      .ease(easeCircle)
       .duration(launchDuration)
       .attr("cy", launchYLoc)
       .transition()
       .duration(launchSpeed * explosionDrop)
-      .ease(d3.easeQuad)
+      .ease(easeQuad)
       .attr("r", 5)
       .attr("cy", explosionYLoc)
       .transition()
@@ -92,14 +94,14 @@ export function launchFireworkBurst() {
       .style("opacity", 1)
       .transition()
       .duration(500)
-      .ease(d3.easeCircle)
+      .ease(easeCircle)
       .attr("cx", d => d.x)
       .attr("cy", d => d.y)
       .attr("r", 10)
-      .style("fill", d => fireWorkPaletteFunc(d.x))
+      .style("fill", getFireworkColor)
       .transition()
       .duration(Math.random() * 1500 + 1000)
-      .ease(d3.easeCircle)
+      .ease(easeCircle)
       .style("opacity", 0)
       .attr("cx", d => d.x + (d.x > launchXLoc ? d.x - launchXLoc : -(-d.x + launchXLoc)))
       .attr("cy", d => d.y + (d.y > explosionYLoc ? d.y - explosionYLoc : -(-d.y + explosionYLoc)))
@@ -122,7 +124,7 @@ export function launchFireworkShow(totalFireworksMain, totalFireworksFinale, ran
     // subtracting one from totalFireworksMain so that the first firework comes without any delay.
     let regularShowMinDuration = fireworkIntervalMain * (totalFireworksMain - 1)
     // all fireworks for the regular show
-    d3.timeout(
+    timeout(
       launchFireworkBurst,
       i <= totalFireworksMain
         ? Math.max(0, fireworkIntervalMain * i + randomInterval)

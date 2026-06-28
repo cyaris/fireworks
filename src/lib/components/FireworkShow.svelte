@@ -1,5 +1,6 @@
 <script>
-  import { mounted } from "svelte-lib/stores/utils"
+  import { onMount } from "svelte"
+
   import { launchFireworkShow } from "../functions"
   import FireworkCanvas from "./FireworkCanvas.svelte"
 
@@ -8,10 +9,17 @@
   export let randomIntervalMsInput = 2500
 
   export let fireworkShow = true
+  let mounted = false
+  let hasLaunched = false
+
+  onMount(() => (
+    mounted = true
+  ))
+
   $: {
-    if ($mounted && fireworkShow) {
+    if (mounted && fireworkShow && !hasLaunched) {
       launchFireworkShow(totalFireworksMain, totalFireworksFinale, randomIntervalMsInput)
-      fireworkShow = false
+      hasLaunched = true
     }
   }
 </script>
