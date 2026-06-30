@@ -70,7 +70,7 @@ export function launchFireworkBurst() {
       .attr("r", launchRadius)
       .attr("cx", launchXLoc)
       .attr("cy", height + launchRadius)
-      .style("fill", d => (randomPalette[d.i % randomPalette.length]))
+      .style("fill", d => randomPalette[d.i % randomPalette.length])
       .style("opacity", d => (d.i > 0 && d.i <= fireWorkTailSize ? 0.15 : 1))
 
     circles
@@ -96,7 +96,7 @@ export function launchFireworkBurst() {
       .attr("cx", d => d.x)
       .attr("cy", d => d.y)
       .attr("r", 10)
-      .style("fill", d => (randomPalette[d.i % randomPalette.length]))
+      .style("fill", d => randomPalette[d.i % randomPalette.length])
       .transition()
       .duration(Math.random() * 1500 + 1000)
       .ease(easeCircle)
