@@ -3,9 +3,9 @@
   let height
 </script>
 
-<svelte:window bind:outerWidth={width} bind:outerHeight={height} />
+<svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 <svg
-  class="no_selection non_reactive overflow-visible fixed top-0 left-0 w-full h-full z-50"
+  class="no_selection non_reactive fixed left-0 top-0 z-50 h-full w-full overflow-visible"
   id="fireworks"
   {width}
   {height}
