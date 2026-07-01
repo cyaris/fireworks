@@ -73,5 +73,5 @@ The lower-level functions are also available from `fireworks/functions`.
 ## Credits
 
 The firework burst process is adapted from this D3 blocks example:
-[http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5](http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5).
+<a href="http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5" target="_blank" rel="noopener noreferrer">http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5</a>.
 This package keeps the core idea while expanding and improving on it, with adjustments for local preferences and package-version differences.
