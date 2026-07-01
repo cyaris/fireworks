@@ -7,8 +7,6 @@ import { timeout } from "d3-timer"
 
 import palettes from "../static/palettes.json"
 
-// credit is due to this blocks page for the process defined below: http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5
-// I took what was there, made adjustments on preference/version differences, and added to it.
 export function launchFireworkBurst() {
   let fireworks = select("#fireworks")
   let node = fireworks.node()
@@ -70,7 +68,7 @@ export function launchFireworkBurst() {
       .attr("r", launchRadius)
       .attr("cx", launchXLoc)
       .attr("cy", height + launchRadius)
-      .style("fill", d => (randomPalette[d.i % randomPalette.length]))
+      .style("fill", d => randomPalette[d.i % randomPalette.length])
       .style("opacity", d => (d.i > 0 && d.i <= fireWorkTailSize ? 0.15 : 1))
 
     circles
@@ -96,7 +94,7 @@ export function launchFireworkBurst() {
       .attr("cx", d => d.x)
       .attr("cy", d => d.y)
       .attr("r", 10)
-      .style("fill", d => (randomPalette[d.i % randomPalette.length]))
+      .style("fill", d => randomPalette[d.i % randomPalette.length])
       .transition()
       .duration(Math.random() * 1500 + 1000)
       .ease(easeCircle)
