@@ -69,3 +69,9 @@ Import the Svelte component when an app needs a ready-made show:
 ```
 
 The lower-level functions are also available from `fireworks/functions`.
+
+## Credits
+
+The firework burst process is adapted from this D3 blocks example:
+[http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5](http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5).
+This package keeps the core idea while adjusting it for local preferences and package-version differences.
