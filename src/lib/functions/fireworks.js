@@ -98,6 +98,7 @@ export function launchFireworkBurst() {
       .transition()
       .duration(Math.random() * 1500 + 1000)
       .ease(easeCircle)
+      .style("fill", () => randomPalette[Math.floor(Math.random() * randomPalette.length)])
       .style("opacity", 0)
       .attr("cx", d => d.x + (d.x > launchXLoc ? d.x - launchXLoc : -(-d.x + launchXLoc)))
       .attr("cy", d => d.y + (d.y > explosionYLoc ? d.y - explosionYLoc : -(-d.y + explosionYLoc)))
