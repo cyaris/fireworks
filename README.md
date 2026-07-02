@@ -2,6 +2,10 @@
 
 Svelte package and demo app for rendering animated fireworks. It exposes reusable Svelte components and JavaScript functions that other local projects can use for celebratory UI moments.
 
+## Live usage
+
+The fireworks can be viewed live on <a href="https://charlieyaris.com/" target="_blank" rel="noopener noreferrer">charlieyaris.com</a> by clicking the fireworks button on the top left of the navigation bar. They are also incorporated into the <a href="https://github.com/cyaris/profile_photo" target="_blank" rel="noopener noreferrer">profile photo</a> on the <a href="https://charlieyaris.com/" target="_blank" rel="noopener noreferrer">home page</a> and into <a href="https://github.com/cyaris/mastermind" target="_blank" rel="noopener noreferrer">Mastermind</a>, which can be played on the <a href="https://charlieyaris.com/mastermind/" target="_blank" rel="noopener noreferrer">project page</a>.
+
 ## What it does
 
 - Renders a full-window SVG fireworks canvas.
@@ -73,5 +77,5 @@ The lower-level functions are also available from `fireworks/functions`.
 ## Credits
 
 The firework burst process is adapted from this D3 blocks example:
-[http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5](http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5).
+<a href="http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5" target="_blank" rel="noopener noreferrer">http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5</a>.
 This package keeps the core idea while expanding and improving on it, with adjustments for local preferences and package-version differences.
