@@ -51,6 +51,12 @@ export function launchFireworkBurst() {
     })
 
     let randomPalette = palettes[Math.floor(Math.random() * palettes.length)]
+    let paletteIndex = 0
+    let nextPaletteColor = () => {
+      let color = randomPalette[paletteIndex]
+      paletteIndex = (paletteIndex + 1) % randomPalette.length
+      return color
+    }
 
     let launchRadius = 3
     let launchDuration = 1000
@@ -89,16 +95,16 @@ export function launchFireworkBurst() {
       .duration(0)
       .style("opacity", 1)
       .transition()
-      .duration(500)
+      .duration(Math.random() * 100 + 500)
       .ease(easeCircle)
+      .attr("r", 10)
+      .style("fill", nextPaletteColor)
       .attr("cx", d => d.x)
       .attr("cy", d => d.y)
-      .attr("r", 10)
-      .style("fill", d => randomPalette[d.i % randomPalette.length])
       .transition()
       .duration(Math.random() * 1500 + 1000)
       .ease(easeCircle)
-      .style("fill", () => randomPalette[Math.floor(Math.random() * randomPalette.length)])
+      .style("fill", nextPaletteColor)
       .style("opacity", 0)
       .attr("cx", d => d.x + (d.x > launchXLoc ? d.x - launchXLoc : -(-d.x + launchXLoc)))
       .attr("cy", d => d.y + (d.y > explosionYLoc ? d.y - explosionYLoc : -(-d.y + explosionYLoc)))
@@ -110,7 +116,7 @@ export function launchFireworkShow(totalFireworksMain, totalFireworksFinale, ran
   // totalFireworksMain: total fireworks in the regular show
   // totalFireworksFinale: total fireworks in the grand finale
   // duration per firework of the regular show
-  let fireworkIntervalMain = 1500
+  let fireworkIntervalMain = 1540
   // totalFireworksFinale: total fireworks in the grand finale
   // duration per firework of the grand finale show
   let fireWorkIntervalFinale = 500
