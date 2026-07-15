@@ -8,6 +8,10 @@
 
 - For README links that intentionally open a new tab, use an HTML anchor with `target="_blank"` and `rel="noopener noreferrer"`.
 
+## Local Dependencies
+
+- Keep `linklocal` and local `file:` dependencies in `package.json`; sibling workspace packages such as `svelte-lib` should use `file:../...` paths.
+
 ## Embedded Bundles
 
-- Preserve the two Rollup outputs unless deliberately changing the Jekyll integration: `src/main.js` builds `dist/bundle.js` to mount the firework canvas, and `src/main2.js` builds `dist/bundle2.js` to expose the global `window.launchFireworkBurst` helper.
+- Preserve documented embedded bundle outputs unless deliberately changing host-page integration.
