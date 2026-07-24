@@ -15,3 +15,13 @@
 ## Embedded Bundles
 
 - Preserve documented embedded bundle outputs unless deliberately changing host-page integration.
+- Keep the root `Rollup upload` workflow's bundle file list aligned with the documented embedded outputs, including
+  `bundle2.*`.
+
+## GitHub Actions
+
+- Keep the root `Rollup upload` workflow as a thin caller of the reusable `svelte-lib` rollup upload workflow. Project
+  specifics belong in workflow inputs, including the S3 prefix, bundle file list, and `SVELTE_LIB_REF` branch selection
+  for automatic production uploads.
+- Preserve automatic production uploads on pushes to `main` or `master`; manual dispatch should keep staged uploads as
+  the default unless `production` is explicitly selected.
