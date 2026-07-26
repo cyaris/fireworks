@@ -1,5 +1,7 @@
 name: Rollup upload
 
+permissions: {}
+
 on:
   push:
     branches:
@@ -49,6 +51,12 @@ jobs:
           if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
             production="true"
             dry_run="false"
+            svelte_lib_ref="$VAR_SVELTE_LIB_REF"
+          fi
+
+          if [[ "$production" == "true" && ! "$svelte_lib_ref" =~ ^[0-9a-f]{40}$ ]]; then
+            printf "Production uploads require SVELTE_LIB_REF or svelte-lib-ref to be a pinned 40-character commit SHA.\n" >&2
+            exit 1
           fi
 
           {
@@ -63,7 +71,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    uses: cyaris/svelte-lib/.github/workflows/rollup-upload.yml@cy_dev3
+    uses: cyaris/svelte-lib/.github/workflows/rollup-upload.yml@2d425d791e578c14869c235774128b25748d15f0
     with:
       bundle-files: |
         bundle.css:text/css
