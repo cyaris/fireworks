@@ -8,10 +8,10 @@ The fireworks can be viewed live on <a href="https://charlieyaris.com/" target="
 
 ## What it does
 
-- Renders a full-window SVG fireworks canvas.
-- Launches randomized firework bursts using D3 transitions, timers, easing, and color palettes.
-- Provides a `FireworkShow` component that starts a configurable main show and finale.
-- Exports both component and function entry points for use in other Svelte apps.
+- Renders a full-window SVG fireworks canvas
+- Launches randomized firework bursts using D3 transitions, timers, easing, and color palettes
+- Provides a `FireworkShow` component that starts a configurable main show and finale
+- Exports both component and function entry points for other Svelte apps
 
 ## Project layout
 
