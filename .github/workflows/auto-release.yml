@@ -31,7 +31,7 @@ jobs:
       contents: write
       issues: write
       pull-requests: read
-    uses: cyaris/svelte-lib/.github/workflows/auto-release.yml@e7b482b3627dd2cd9272fa12f851e2109eb826a8
+    uses: ./.github/workflows/shared-auto-release.yml
     with:
       pr-number: ${{ github.event.pull_request.number }}
       release-sha: ${{ github.event.pull_request.merge_commit_sha }}
@@ -47,7 +47,7 @@ jobs:
       contents: write
       issues: write
       pull-requests: read
-    uses: cyaris/svelte-lib/.github/workflows/auto-release.yml@e7b482b3627dd2cd9272fa12f851e2109eb826a8
+    uses: ./.github/workflows/shared-auto-release.yml
     with:
       pr-number: ${{ inputs.pr-number }}
       release-sha: ${{ inputs.release-sha || github.sha }}
