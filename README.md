@@ -63,7 +63,7 @@ format, lint, Svelte check, and build commands.
 The workflow can be dispatched from the GitHub Actions UI with **Actions > CI > Run workflow**. Manual dispatch exposes
 the `svelte-lib-ref` input for choosing the sibling `svelte-lib` ref checked out for the local `file:` dependency.
 Automatic push and pull-request runs use the `SVELTE_LIB_REF` repository variable when present, falling back to
-`cy_dev3`.
+`main`.
 
 ### `.github/workflows/rollup-upload.yml`
 
@@ -78,7 +78,7 @@ disable `dry-run`.
 
 Set the repository variable `SVELTE_LIB_REF` to the pinned `svelte-lib` commit SHA used by automatic production uploads
 for the local file dependency and shared rollup upload action. Manual staged dispatches can use a branch, tag, or SHA
-through the `svelte-lib-ref` input, falling back to `e7b482b3627dd2cd9272fa12f851e2109eb826a8`; manual production
+through the `svelte-lib-ref` input, falling back to `main`; manual production
 dispatches also require a pinned SHA.
 
 The workflow checks out the private `svelte-lib` repository and runs `.github/actions/rollup-upload` from that checkout.
@@ -95,7 +95,7 @@ release, publishes a GitHub release when warranted, and comments the outcome on 
 The workflow can also be dispatched from the GitHub Actions UI with **Actions > Auto release > Run workflow**. Manual
 dispatch accepts optional `release-sha`, `pr-number`, and `svelte-lib-ref` inputs; when `release-sha` is blank, it
 evaluates the workflow SHA. Automatic runs use `SVELTE_LIB_REF` when present and otherwise read the shared release
-policy from `e7b482b3627dd2cd9272fa12f851e2109eb826a8`. Release runs require `OPENAI_API_KEY`; `RELEASE_TOKEN` and
+policy from `main`. Release runs require `OPENAI_API_KEY`; `RELEASE_TOKEN` and
 `CHECKOUT_TOKEN` can be provided when the default token cannot create releases or read private repositories.
 
 ## Local usage
