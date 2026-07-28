@@ -54,10 +54,12 @@ npm run format:check
 
 ## GitHub Actions Workflows
 
+These local wrappers inherit their reusable implementations from `cyaris/shared-automation`. Manual `workflow_dispatch` paths delegated to the shared workflows are restricted to the `cyaris` GitHub actor by default.
+
 ### `.github/workflows/ci.yml`
 
 The `CI` workflow runs on pushes, pull requests, and manual dispatch. It calls the shared
-`cyaris/svelte-lib/.github/workflows/node-package-ci.yml` workflow to install dependencies and run the package's default
+`cyaris/shared-automation/.github/workflows/ci.yml` workflow to install dependencies and run the package's default
 format, lint, Svelte check, and build commands.
 
 The workflow can be dispatched from the GitHub Actions UI with **Actions > CI > Run workflow**. Manual dispatch exposes
@@ -77,24 +79,24 @@ dispatched from the GitHub Actions UI with **Actions > Rollup upload > Run workf
 disable `dry-run`.
 
 Set the repository variable `SVELTE_LIB_REF` to the pinned `svelte-lib` commit SHA used by automatic production uploads
-for the local file dependency and shared rollup upload action. Manual staged dispatches can use a branch, tag, or SHA
+for the local file dependency. Manual staged dispatches can use a branch, tag, or SHA
 through the `svelte-lib-ref` input, falling back to `main`; manual production
 dispatches also require a pinned SHA.
 
-The workflow checks out the private `svelte-lib` repository and runs `.github/actions/rollup-upload` from that checkout.
+The workflow checks out `cyaris/shared-automation` for the shared rollup upload action and separately checks out the private `svelte-lib` repository as a local dependency.
 Provide `CHECKOUT_TOKEN` with read access to `svelte-lib` and any private local dependency repositories. AWS
 authentication uses `AWS_ROLLUP_UPLOAD_ROLE_ARN` when present, otherwise it expects AWS access-key secrets.
 
 ### `.github/workflows/auto-release.yml`
 
 The `Auto release` workflow runs after a pull request is closed and delegates to the shared
-`cyaris/svelte-lib/.github/workflows/auto-release.yml` workflow only when that pull request was merged. It evaluates the
+`cyaris/shared-automation/.github/workflows/auto-release.yml` workflow only when that pull request was merged. It evaluates the
 merge commit against the repository release policy, asks the configured OpenAI model whether the merge warrants a
 release, publishes a GitHub release when warranted, and comments the outcome on the pull request.
 
 The workflow can also be dispatched from the GitHub Actions UI with **Actions > Auto release > Run workflow**. Manual
-dispatch accepts optional `release-sha`, `pr-number`, and `svelte-lib-ref` inputs; when `release-sha` is blank, it
-evaluates the workflow SHA. Automatic runs use `SVELTE_LIB_REF` when present and otherwise read the shared release
+dispatch accepts optional `release-sha`, `pr-number`, and `shared-automation-ref` inputs; when `release-sha` is blank, it
+evaluates the workflow SHA. Automatic runs use `SHARED_AUTOMATION_REF` when present and otherwise read the shared release
 policy from `main`. Release runs require `OPENAI_API_KEY`; `RELEASE_TOKEN` and
 `CHECKOUT_TOKEN` can be provided when the default token cannot create releases or read private repositories.
 
