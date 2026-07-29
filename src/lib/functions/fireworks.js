@@ -46,7 +46,7 @@ export function launchFireworkBurst() {
       return {
         i: i,
         x: launchXLoc + explosionDistance * Math.cos(randomAngle),
-        y: explosionYLoc + explosionDistance * Math.sin(randomAngle),
+        y: explosionYLoc + explosionDistance * Math.sin(randomAngle)
       }
     })
 
