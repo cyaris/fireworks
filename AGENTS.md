@@ -56,8 +56,8 @@
 - Use `../shared-automation/AGENTS.md` as the source of truth for shared GitHub Actions, reusable workflow wrapper,
   release-policy, dispatch, and automation documentation conventions.
 - Project-specific rollup upload inputs include the S3 prefix, bundle file list, and `SVELTE_LIB_REF` ref selection
-  for automatic production uploads. `SVELTE_LIB_REF` must be a pinned 40-character commit SHA for automatic production
-  uploads.
+  for automatic push-triggered rollup uploads. Push runs fall back to dry-run builds without AWS upload credentials;
+  production uploads require a pinned 40-character `SVELTE_LIB_REF`.
 
 ## Release Management
 
