@@ -89,6 +89,13 @@ The `Auto release` workflow runs from manual dispatch only and calls the
 repository contributes `.github/release-policy.yml` overrides; manual runs use `SHARED_AUTOMATION_REF` when present and
 otherwise read the shared release policy from `main`.
 
+### `.github/workflows/release-please.yml`
+
+The `Release Please` workflow runs on pushes to `main` and manual dispatches by `cyaris`, using
+`release-please-config.json` and `.release-please-manifest.json` for future releases. Historical reconciliation is
+complete through `1724b81115826d65edaa9c8012849607aece2f78`; `auto-release.yml` remains available for manual historical
+repair, while Release Please manages later commits.
+
 ## Local usage
 
 Projects in this workspace use the package through a local file dependency, for example:
