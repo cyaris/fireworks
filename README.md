@@ -77,9 +77,8 @@ the rollup bundles and upload them to `s3://cyaris.github.io/fireworks/`. This p
 `bundle2.*` artifacts.
 
 Set the repository variable `SVELTE_LIB_REF` to the pinned `svelte-lib` commit SHA used by automatic production uploads
-for the local file dependency. Manual staged dispatches can use a branch, tag, or SHA
-through the `svelte-lib-ref` input, falling back to `main`; manual production
-dispatches also require a pinned SHA.
+for the local file dependency. Manual staged dispatches can use a branch, tag, or SHA through the `svelte-lib-ref`
+input, falling back to `main`; manual production dispatches also require a pinned SHA.
 
 This workflow checks out `svelte-lib` as a local dependency.
 

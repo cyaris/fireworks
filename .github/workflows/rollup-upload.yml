@@ -54,9 +54,9 @@ jobs:
           svelte_lib_ref="${INPUT_SVELTE_LIB_REF:-${VAR_SVELTE_LIB_REF:-$default_svelte_lib_ref}}"
 
           if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+            svelte_lib_ref="${VAR_SVELTE_LIB_REF:-$default_svelte_lib_ref}"
             production="true"
             dry_run="false"
-            svelte_lib_ref="${VAR_SVELTE_LIB_REF:-$default_svelte_lib_ref}"
           fi
 
           if [[ "$production" == "true" && ! "$svelte_lib_ref" =~ ^[0-9a-f]{40}$ ]]; then
