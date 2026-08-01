@@ -48,7 +48,7 @@
 ## Embedded Bundles
 
 - Preserve documented embedded bundle outputs unless deliberately changing host-page integration.
-- Keep the root `Rollup upload` workflow's bundle file list aligned with the documented embedded outputs, including
+- Keep the root `Rollup` workflow's bundle file list aligned with the documented embedded outputs, including
   `bundle2.*`.
 
 ## GitHub Actions
