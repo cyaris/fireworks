@@ -63,18 +63,12 @@ inputs, and secrets are documented in the
 The `Auto-create dev pull request` workflow runs on pushes to `dev` and calls the
 [shared auto-create-dev-pr workflow](https://github.com/cyaris/shared-automation#githubworkflowsauto-create-dev-pryml).
 
-### `.github/workflows/ci.yml`
+### `.github/workflows/rollup.yml`
 
-The `CI` workflow runs on pushes, pull requests, and manual dispatch. It calls the
-[shared CI workflow](https://github.com/cyaris/shared-automation#githubworkflowsciyml). Manual dispatch exposes
-`svelte-lib-ref`; automatic runs use `SVELTE_LIB_REF` when set.
-
-### `.github/workflows/rollup-upload.yml`
-
-The `Rollup upload` workflow calls the
-[shared rollup-upload workflow](https://github.com/cyaris/shared-automation#githubworkflowsrollup-uploadyml) to build
-the rollup bundles and upload them to `s3://cyaris.github.io/fireworks/`. This project uploads both `bundle.*` and
-`bundle2.*` artifacts.
+The `Rollup` workflow runs on pushes, pull requests, and manual dispatch, then calls the
+[shared rollup workflow](https://github.com/cyaris/shared-automation#githubworkflowsrollupyml). Shared CI runs for every
+trigger; uploads run on `main` and `master` pushes or manual dispatches to build the rollup bundles and upload them to
+`s3://cyaris.github.io/fireworks/`. This project uploads both `bundle.*` and `bundle2.*` artifacts.
 
 Set the repository variable `SVELTE_LIB_REF` to the pinned `svelte-lib` commit SHA used by automatic production uploads
 for the local file dependency. Manual staged dispatches can use a branch, tag, or SHA through the `svelte-lib-ref`
