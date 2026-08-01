@@ -52,6 +52,34 @@ npm run lint
 npm run format:check
 ```
 
+## Local usage
+
+Projects in this workspace use the package through a local file dependency, for example:
+
+```json
+"fireworks": "file:../fireworks"
+```
+
+Import the Svelte component when an app needs a ready-made show:
+
+```svelte
+<script>
+  import { FireworkShow } from "fireworks/components"
+</script>
+
+<div class="fixed left-0 top-0">
+  <FireworkShow totalFireworksMain={75} totalFireworksFinale={25} />
+</div>
+```
+
+The lower-level functions are also available from `fireworks/functions`.
+
+## Credits
+
+The firework burst process is adapted from this D3 blocks example:
+<a href="http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5" target="_blank" rel="noopener noreferrer">http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5</a>.
+This package keeps the core idea while expanding and improving on it, with adjustments for local preferences and package-version differences.
+
 ## GitHub Actions Workflows
 
 These local wrappers inherit their reusable implementations from `cyaris/shared-automation`. Shared workflow behavior,
@@ -95,31 +123,3 @@ historical repair, while Release Please manages later commits.
 The `Workflow validation` workflow runs on local workflow and automation configuration changes, then calls the
 [shared workflow-validation workflow](https://github.com/cyaris/shared-automation#githubworkflowsworkflow-validationyml)
 to validate rollup upload wrapper logic, release configuration, and Renovate configuration.
-
-## Local usage
-
-Projects in this workspace use the package through a local file dependency, for example:
-
-```json
-"fireworks": "file:../fireworks"
-```
-
-Import the Svelte component when an app needs a ready-made show:
-
-```svelte
-<script>
-  import { FireworkShow } from "fireworks/components"
-</script>
-
-<div class="fixed left-0 top-0">
-  <FireworkShow totalFireworksMain={75} totalFireworksFinale={25} />
-</div>
-```
-
-The lower-level functions are also available from `fireworks/functions`.
-
-## Credits
-
-The firework burst process is adapted from this D3 blocks example:
-<a href="http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5" target="_blank" rel="noopener noreferrer">http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5</a>.
-This package keeps the core idea while expanding and improving on it, with adjustments for local preferences and package-version differences.
