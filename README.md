@@ -93,23 +93,19 @@ The `Auto-create dev pull request` workflow runs on pushes to `dev` and calls th
 
 ### `.github/workflows/rollup.yml`
 
-The `Rollup` workflow runs on pushes, pull requests, and manual dispatch, then calls the
+The `Rollup` workflow runs on pushes to `main`, pull requests, and manual dispatch, then calls the
 [shared rollup workflow](https://github.com/cyaris/shared-automation#githubworkflowsrollupyml). Shared CI runs for every
-trigger; uploads run on `main` and `master` pushes or manual dispatches to build the rollup bundles and upload them to
+trigger; uploads run on `main` pushes or manual dispatches to build the rollup bundles and upload them to
 `s3://cyaris.github.io/fireworks/`. This project uploads both `bundle.*` and `bundle2.*` artifacts.
 
-Set the repository variable `SVELTE_LIB_REF` to the pinned `svelte-lib` commit SHA used by automatic production uploads
-for the local file dependency. Manual staged dispatches can use a branch, tag, or SHA through the `svelte-lib-ref`
-input, falling back to `main`; manual production dispatches also require a pinned SHA.
-
-This workflow checks out `svelte-lib` as a local dependency.
+This workflow checks out `svelte-lib` at the latest `main` commit as a local dependency. The shared workflow resolves
+that branch to an exact commit SHA before checkout.
 
 ### `.github/workflows/auto-release.yml`
 
 The `Auto release` workflow runs from manual dispatch only and calls the
 [shared auto-release workflow](https://github.com/cyaris/shared-automation#githubworkflowsauto-releaseyml). This
-repository contributes `.github/release-policy.yml` overrides; manual runs use `SHARED_AUTOMATION_REF` when present and
-otherwise read the shared release policy from `main`.
+repository contributes `.github/release-policy.yml` overrides; manual runs read the shared release policy from `main`.
 
 ### `.github/workflows/release-please.yml`
 
