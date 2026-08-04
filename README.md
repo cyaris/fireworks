@@ -72,7 +72,9 @@ Import the Svelte component when an app needs a ready-made show:
 </div>
 ```
 
-The lower-level functions are also available from `fireworks/functions`.
+The lower-level functions are also available from `fireworks/functions`. Calling `launchFireworkBurst` directly requires
+an `id="fireworks"` element already present in the DOM, since it targets that element instead of creating one; use the
+`FireworkCanvas` component, or render an equivalent element yourself, before calling the function.
 
 ## Credits
 
