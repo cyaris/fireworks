@@ -36,6 +36,10 @@
     "dist",
     "README.md"
   ],
+  "overrides": {
+    "cookie": "^0.7.2",
+    "esbuild": "^0.25.2"
+  },
   "dependencies": {
     "d3-ease": "3",
     "d3-random": "3",
@@ -45,6 +49,6 @@
     "linklocal": "^2.8.2",
     "svelte": "4.2.20",
     "svelte-lib": "file:../svelte-lib",
-    "vite": "^4.4.2"
+    "vite": "^5.4.21"
   }
 }
