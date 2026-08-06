@@ -10,14 +10,14 @@ import palettes from "../static/palettes.json"
 export function launchFireworkBurst() {
   let fireworks = select("#fireworks")
   let node = fireworks.node()
-  let width = node.clientWidth
-  let height = node.clientHeight
+  let width = node && node.clientWidth
+  let height = node && node.clientHeight
 
   if (width && height) {
     // defining y parameter for the height of the launch
     // the lowest possible launch height.
     let launchYMin = height * 0.1
-    // the is the distance from the top of the pange
+    // this is the distance from the top of the page
     let launchYLoc = launchYMin * Math.random() + launchYMin
     // defining adjusted y parameter for delay preceding explosion
     // new height adjusting for the distance by which the rocket will descend after reaching its peak (prior to exploding)
@@ -37,7 +37,7 @@ export function launchFireworkBurst() {
     let totalCircles = Math.round(explosionMagnitude * 1.5)
     // function to determine the x coordinates for all explosion pieces
     let explosionData = Array.from({ length: totalCircles }, (_, index) => index).map(i => {
-      // distance fron the center of the explosion determined at random
+      // distance from the center of the explosion determined at random
       // explosionSize (magnitude of the explosion) stays the same for each circle
       let explosionDistance = Math.sqrt(~~(Math.random() * explosionMagnitude * explosionMagnitude))
       // randomly determining the angle by which each circle will be relative to the center of the explosion

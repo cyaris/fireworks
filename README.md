@@ -72,7 +72,9 @@ Import the Svelte component when an app needs a ready-made show:
 </div>
 ```
 
-The lower-level functions are also available from `fireworks/functions`.
+The lower-level functions are also available from `fireworks/functions`. Calling `launchFireworkBurst` directly requires
+an `id="fireworks"` element already present in the DOM, since it targets that element instead of creating one; use the
+`FireworkCanvas` component, or render an equivalent element yourself, before calling the function.
 
 ## Credits
 
@@ -93,10 +95,12 @@ The `Auto-create dev pull request` workflow runs on pushes to `dev` and calls th
 
 ### `.github/workflows/rollup.yml`
 
-The `Rollup` workflow runs on pushes to `main`, pull requests, and manual dispatch, then calls the
+The `Rollup` workflow runs on pushes to `dev` and `main`, pull requests, and manual dispatch, then calls the
 [shared rollup workflow](https://github.com/cyaris/shared-automation#githubworkflowsrollupyml). Shared CI runs for every
-trigger; uploads run on `main` pushes or manual dispatches to build the rollup bundles and upload them to
-`s3://cyaris.github.io/fireworks/`. This project uploads both `bundle.*` and `bundle2.*` artifacts.
+trigger; uploads run on `dev` and `main` pushes or manual dispatches to build the rollup bundles and upload them to
+`s3://cyaris.github.io/fireworks/`. `main` runs upload unprefixed production bundles, and both `dev` runs and manual
+dispatches upload staged `test_bundle.*` names, since this wrapper does not pass `manual-production`. This project
+uploads both `bundle.*` and `bundle2.*` artifacts.
 
 This workflow checks out `svelte-lib` at the latest `main` commit as a local dependency. The shared workflow resolves
 that branch to an exact commit SHA before checkout.

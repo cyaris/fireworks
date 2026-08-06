@@ -2,7 +2,7 @@
   import { onMount } from "svelte"
 
   import { launchFireworkShow } from "../functions"
-  import FireworkCanvas from "./FireworkCanvas.svelte"
+  import FireworkCanvas from "./App.svelte"
 
   export let totalFireworksMain = 75
   export let totalFireworksFinale = 25
