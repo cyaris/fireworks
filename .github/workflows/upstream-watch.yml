@@ -10,6 +10,9 @@ permissions:
 
 jobs:
   upstream-watch:
+    concurrency:
+      group: upstream-watch
+      cancel-in-progress: false
     permissions:
       contents: read
       actions: write
