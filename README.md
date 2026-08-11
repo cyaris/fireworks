@@ -107,7 +107,7 @@ that branch to an exact commit SHA before checkout.
 
 ### `.github/workflows/upstream-watch.yml`
 
-The `Upstream Watch` workflow runs daily at 12:30 UTC, one hour before the `cyaris.github.io` Pages build, and on
+The `Upstream Watch` workflow runs daily at 12:23 UTC, one hour before the `cyaris.github.io` Pages build, and on
 manual dispatch, then calls the
 [shared upstream-watch workflow](https://github.com/cyaris/shared-automation#githubworkflowsupstream-watchyml). It
 watches `svelte-lib`'s `main` branch and, when it has moved since the last check, dispatches this repository's own
