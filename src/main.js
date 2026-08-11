@@ -1,12 +1,10 @@
 import "svelte-lib/styles/app.css"
 import "svelte-lib/styles/root.css"
 
+import { mountEmbeddedRoot } from "svelte-lib/functions"
+
 import { FireworkCanvas } from "./lib/components"
 
-let div = document.createElement("div")
-div.classList.add("fireworks")
-
-let script = document.currentScript
-script.parentNode.insertBefore(div, script)
+let div = mountEmbeddedRoot({ classes: ["fireworks"] })
 
 new FireworkCanvas({ target: div })
