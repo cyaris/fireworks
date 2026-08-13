@@ -95,7 +95,7 @@ The `Auto-create dev pull request` workflow runs on pushes to `dev` and calls th
 
 ### `.github/workflows/rollup.yml`
 
-The `Rollup` workflow runs on pushes to `dev` and `main`, pull requests, and manual dispatch, then calls the
+The `Rollup` workflow runs on pushes to `dev` and `main` and on manual dispatch, then calls the
 [shared rollup workflow](https://github.com/cyaris/shared-automation#githubworkflowsrollupyml). Shared CI runs for every
 trigger; uploads run on `dev` and `main` pushes or manual dispatches to build the rollup bundles and upload them to
 `s3://cyaris.github.io/fireworks/`. `main` runs upload unprefixed production bundles, and both `dev` runs and manual
