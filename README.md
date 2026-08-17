@@ -8,8 +8,8 @@ The fireworks can be viewed live on <a href="https://charlieyaris.com/" target="
 
 ## What it does
 
-- Renders a full-window SVG fireworks canvas
-- Launches randomized firework bursts using D3 transitions, timers, easing, and color palettes
+- Renders a full-window Canvas 2D fireworks scene, animated with one coordinated `requestAnimationFrame` loop
+- Launches randomized firework bursts using D3 timers, easing, random distributions, and color interpolation, driving plain numerical particle state that is drawn to Canvas each frame
 - Provides a `FireworkShow` component that starts a configurable main show and finale
 - Exports both component and function entry points for other Svelte apps
 
@@ -73,8 +73,8 @@ Import the Svelte component when an app needs a ready-made show:
 ```
 
 The lower-level functions are also available from `fireworks/functions`. Calling `launchFireworkBurst` directly requires
-an `id="fireworks"` element already present in the DOM, since it targets that element instead of creating one; use the
-`FireworkCanvas` component, or render an equivalent element yourself, before calling the function.
+a `<canvas id="fireworks">` element already present in the DOM, since it targets that element instead of creating one;
+use the `FireworkCanvas` component, or render an equivalent `canvas` element yourself, before calling the function.
 
 ## Credits
 
