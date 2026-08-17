@@ -19,26 +19,24 @@ export function launchFireworkBurst() {
     let launchYMin = height * 0.1
     // this is the distance from the top of the page
     let launchYLoc = launchYMin * Math.random() + launchYMin
+
     // defining adjusted y parameter for delay preceding explosion
     // new height adjusting for the distance by which the rocket will descend after reaching its peak (prior to exploding)
     let explosionDrop = Math.random() * 90 + 20
     // height all the circles will be at after the drop (and just before exploding)
     let explosionYLoc = launchYLoc + explosionDrop
-    // function below will be used to determine the x location for launching the rocket
-    let getLaunchXLoc = randomNormal(width / 2, width / 8)
-    // defining values for the launch of the firework
+
     // x coordinate for the ascending (and descending) rocket
-    let launchXLoc = getLaunchXLoc()
+    let launchXLoc = randomNormal(width / 2, width / 8)()
+
     // determining the magnitude of the explosion (value to be squared) at random
     // the actual distance from the explosion will be a combination of this value and another random value determined for each piece
     // this will also be used to decide the total circles for the explosion
     let explosionMagnitude = Math.random() * 40 + 140
-    // total circles for the explosion
-    let totalCircles = Math.round(explosionMagnitude * 1.5)
-    // function to determine the x coordinates for all explosion pieces
-    let explosionData = Array.from({ length: totalCircles }, (_, index) => index).map(i => {
+    // total circles for the explosion, and the x/y coordinates for each piece
+    let explosionData = Array.from({ length: Math.round(explosionMagnitude * 1.5) }, (_, index) => index).map(i => {
       // distance from the center of the explosion determined at random
-      // explosionSize (magnitude of the explosion) stays the same for each circle
+      // explosionMagnitude stays the same for each circle
       let explosionDistance = Math.sqrt(~~(Math.random() * explosionMagnitude * explosionMagnitude))
       // randomly determining the angle by which each circle will be relative to the center of the explosion
       let randomAngle = Math.random() * 2 * Math.PI
@@ -117,7 +115,6 @@ export function launchFireworkShow(totalFireworksMain, totalFireworksFinale, ran
   // totalFireworksFinale: total fireworks in the grand finale
   // duration per firework of the regular show
   let fireworkIntervalMain = 1540
-  // totalFireworksFinale: total fireworks in the grand finale
   // duration per firework of the grand finale show
   let fireWorkIntervalFinale = 500
 

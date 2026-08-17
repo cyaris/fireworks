@@ -95,7 +95,7 @@ The `Auto-create dev pull request` workflow runs on pushes to `dev` and calls th
 
 ### `.github/workflows/rollup.yml`
 
-The `Rollup` workflow runs on pushes to `dev` and `main`, pull requests, and manual dispatch, then calls the
+The `Rollup` workflow runs on pushes to `dev` and `main` and on manual dispatch, then calls the
 [shared rollup workflow](https://github.com/cyaris/shared-automation#githubworkflowsrollupyml). Shared CI runs for every
 trigger; uploads run on `dev` and `main` pushes or manual dispatches to build the rollup bundles and upload them to
 `s3://cyaris.github.io/fireworks/`. `main` runs upload unprefixed production bundles, and both `dev` runs and manual
@@ -107,7 +107,7 @@ that branch to an exact commit SHA before checkout.
 
 ### `.github/workflows/upstream-watch.yml`
 
-The `Upstream Watch` workflow runs daily at 12:30 UTC, one hour before the `cyaris.github.io` Pages build, and on
+The `Upstream Watch` workflow runs daily at 12:23 UTC, one hour before the GitHub Pages build for `cyaris.github.io`, and on
 manual dispatch, then calls the
 [shared upstream-watch workflow](https://github.com/cyaris/shared-automation#githubworkflowsupstream-watchyml). It
 watches `svelte-lib`'s `main` branch and, when it has moved since the last check, dispatches this repository's own
