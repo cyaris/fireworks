@@ -5,6 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "postinstall": "linklocal",
     "dev": "vite --host",
     "dev:open": "vite --host --open",
     "build": "svelte-kit sync && svelte-package",
@@ -42,10 +43,9 @@
   },
   "dependencies": {
     "d3-ease": "3",
+    "d3-interpolate": "3",
     "d3-random": "3",
-    "d3-selection": "3",
     "d3-timer": "3",
-    "d3-transition": "3",
     "linklocal": "^2.8.2",
     "svelte": "4.2.20",
     "svelte-lib": "file:../svelte-lib",

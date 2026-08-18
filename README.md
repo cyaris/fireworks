@@ -8,8 +8,8 @@ The fireworks can be viewed live on <a href="https://charlieyaris.com/" target="
 
 ## What it does
 
-- Renders a full-window SVG fireworks canvas
-- Launches randomized firework bursts using D3 transitions, timers, easing, and color palettes
+- Renders a full-window Canvas 2D fireworks scene, animated with one coordinated `requestAnimationFrame` loop
+- Launches randomized firework bursts using D3 timers, easing, random distributions, and color interpolation, driving plain numerical particle state that is drawn to Canvas each frame
 - Provides a `FireworkShow` component that starts a configurable main show and finale
 - Exports both component and function entry points for other Svelte apps
 
@@ -73,8 +73,8 @@ Import the Svelte component when an app needs a ready-made show:
 ```
 
 The lower-level functions are also available from `fireworks/functions`. Calling `launchFireworkBurst` directly requires
-an `id="fireworks"` element already present in the DOM, since it targets that element instead of creating one; use the
-`FireworkCanvas` component, or render an equivalent element yourself, before calling the function.
+a `<canvas id="fireworks">` element already present in the DOM, since it targets that element instead of creating one;
+use the `FireworkCanvas` component, or render an equivalent `canvas` element yourself, before calling the function.
 
 ## Credits
 
@@ -98,9 +98,10 @@ The `Auto-create dev pull request` workflow runs on pushes to `dev` and calls th
 The `Rollup` workflow runs on pushes to `dev` and `main` and on manual dispatch, then calls the
 [shared rollup workflow](https://github.com/cyaris/shared-automation#githubworkflowsrollupyml). Shared CI runs for every
 trigger; uploads run on `dev` and `main` pushes or manual dispatches to build the rollup bundles and upload them to
-`s3://cyaris.github.io/fireworks/`. `main` runs upload unprefixed production bundles, and both `dev` runs and manual
-dispatches upload staged `test_bundle.*` names, since this wrapper does not pass `manual-production`. This project
-uploads both `bundle.*` and `bundle2.*` artifacts.
+`s3://cyaris.github.io/fireworks/`. The shared workflow selects production versus staged uploads by the triggering
+branch rather than a manual toggle: `main` pushes and manual dispatches from `main` upload unprefixed production
+bundles, while `dev` pushes and manual dispatches from `dev` upload staged `test_bundle.*` names. This project uploads
+both `bundle.*` and `bundle2.*` artifacts.
 
 This workflow checks out `svelte-lib` at the latest `main` commit as a local dependency. The shared workflow resolves
 that branch to an exact commit SHA before checkout.
