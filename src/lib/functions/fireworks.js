@@ -182,7 +182,11 @@ function renderFrame(now) {
   activeBursts = activeBursts.filter(burst => now - burst.start < burst.totalDuration)
 
   let canvas = document.getElementById("fireworks")
-  if (!canvas || !activeBursts.length) return false
+  if (!canvas) {
+    activeBursts = []
+    return false
+  }
+  if (!activeBursts.length) return false
 
   let { context } = configureCanvas2D({ canvas, height: canvas.clientHeight, width: canvas.clientWidth })
   if (!context) return true
