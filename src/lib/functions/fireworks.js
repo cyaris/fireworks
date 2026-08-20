@@ -16,6 +16,7 @@ let explosionRadius = 5
 let finalRadius = 10
 
 let activeBursts = []
+let fireworkScene = []
 
 function lerp(from, to, progress) {
   return from + (to - from) * progress
@@ -178,6 +179,32 @@ function getParticleDraw(burst, particle, elapsed) {
   }
 }
 
+function getFireworkScene(now) {
+  fireworkScene.length = 0
+  activeBursts.forEach(burst => {
+    let elapsed = now - burst.start
+
+    burst.particles.forEach(particle => {
+      let draw = getParticleDraw(burst, particle, elapsed)
+      if (draw.opacity > 0) fireworkScene.push(draw)
+    })
+  })
+
+  return fireworkScene
+}
+
+function drawFireworkScene(context, scene) {
+  context.save()
+  scene.forEach(({ fill, opacity, radius, x, y }) => {
+    context.globalAlpha = opacity
+    context.fillStyle = fill
+    context.beginPath()
+    context.arc(x, y, radius, 0, Math.PI * 2)
+    context.fill()
+  })
+  context.restore()
+}
+
 function renderFrame(now) {
   activeBursts = activeBursts.filter(burst => now - burst.start < burst.totalDuration)
 
@@ -192,23 +219,7 @@ function renderFrame(now) {
   if (!context) return true
 
   context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight)
-
-  activeBursts.forEach(burst => {
-    let elapsed = now - burst.start
-
-    burst.particles.forEach(particle => {
-      let draw = getParticleDraw(burst, particle, elapsed)
-      if (!draw || draw.opacity <= 0) return
-
-      context.globalAlpha = draw.opacity
-      context.fillStyle = draw.fill
-      context.beginPath()
-      context.arc(draw.x, draw.y, draw.radius, 0, Math.PI * 2)
-      context.fill()
-    })
-  })
-
-  context.globalAlpha = 1
+  drawFireworkScene(context, getFireworkScene(now))
 
   return true
 }
