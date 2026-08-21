@@ -247,7 +247,7 @@ export function launchFireworkShow(totalFireworksMain, totalFireworksFinale, ran
 
     timeout(
       launchFireworkBurst,
-      i <= totalFireworksMain
+      i < totalFireworksMain
         ? Math.max(0, fireworkIntervalMain * i + randomInterval)
         : Math.max(
             regularShowMinDuration - randomIntervalMsInput,
