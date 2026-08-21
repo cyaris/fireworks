@@ -242,6 +242,7 @@ export function launchFireworkShow(totalFireworksMain, totalFireworksFinale, ran
   let fireWorkIntervalFinale = 500
   let regularShowMinDuration = fireworkIntervalMain * (totalFireworksMain - 1)
   let previousFinaleDelay = 0
+  let timers = []
 
   for (let i = 0; i < totalFireworksMain + totalFireworksFinale; i++) {
     let randomInterval = i == 0 ? 0.5 : Math.random() * 2 * randomIntervalMsInput - randomIntervalMsInput
@@ -256,6 +257,8 @@ export function launchFireworkShow(totalFireworksMain, totalFireworksFinale, ran
       previousFinaleDelay = delay
     }
 
-    timeout(launchFireworkBurst, delay)
+    timers.push(timeout(launchFireworkBurst, delay))
   }
+
+  return () => timers.forEach(timer => timer.stop())
 }
