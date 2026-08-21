@@ -241,18 +241,21 @@ export function launchFireworkShow(totalFireworksMain, totalFireworksFinale, ran
   let fireworkIntervalMain = 1540
   let fireWorkIntervalFinale = 500
   let regularShowMinDuration = fireworkIntervalMain * (totalFireworksMain - 1)
+  let previousFinaleDelay = 0
 
   for (let i = 0; i < totalFireworksMain + totalFireworksFinale; i++) {
     let randomInterval = i == 0 ? 0.5 : Math.random() * 2 * randomIntervalMsInput - randomIntervalMsInput
+    let delay
 
-    timeout(
-      launchFireworkBurst,
-      i < totalFireworksMain
-        ? Math.max(0, fireworkIntervalMain * i + randomInterval)
-        : Math.max(
-            regularShowMinDuration - randomIntervalMsInput,
-            regularShowMinDuration + fireWorkIntervalFinale * (i - (totalFireworksMain - 1)) + randomInterval
-          )
-    )
+    if (i < totalFireworksMain) {
+      delay = Math.max(0, fireworkIntervalMain * i + randomInterval)
+    } else {
+      let candidateDelay =
+        regularShowMinDuration + fireWorkIntervalFinale * (i - (totalFireworksMain - 1)) + randomInterval
+      delay = Math.max(0, previousFinaleDelay, candidateDelay)
+      previousFinaleDelay = delay
+    }
+
+    timeout(launchFireworkBurst, delay)
   }
 }
