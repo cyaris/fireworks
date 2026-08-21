@@ -238,19 +238,13 @@ export function launchFireworkBurst() {
 }
 
 export function launchFireworkShow(totalFireworksMain, totalFireworksFinale, randomIntervalMsInput) {
-  // totalFireworksMain: total fireworks in the regular show
-  // totalFireworksFinale: total fireworks in the grand finale
-  // duration per firework of the regular show
   let fireworkIntervalMain = 1540
-  // duration per firework of the grand finale show
   let fireWorkIntervalFinale = 500
+  let regularShowMinDuration = fireworkIntervalMain * (totalFireworksMain - 1)
 
-  for (var i = 0; i <= totalFireworksMain + totalFireworksFinale - 1; i++) {
-    // setting random variable manually for first iteration only.
+  for (let i = 0; i < totalFireworksMain + totalFireworksFinale; i++) {
     let randomInterval = i == 0 ? 0.5 : Math.random() * 2 * randomIntervalMsInput - randomIntervalMsInput
-    // subtracting one from totalFireworksMain so that the first firework comes without any delay.
-    let regularShowMinDuration = fireworkIntervalMain * (totalFireworksMain - 1)
-    // all fireworks for the regular show
+
     timeout(
       launchFireworkBurst,
       i <= totalFireworksMain

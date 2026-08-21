@@ -5,6 +5,4 @@ import { mountEmbeddedRoot } from "svelte-lib/functions"
 
 import { FireworkCanvas } from "./lib/components"
 
-let div = mountEmbeddedRoot({ classes: ["fireworks"] })
-
-new FireworkCanvas({ target: div })
+new FireworkCanvas({ target: mountEmbeddedRoot({ classes: ["fireworks"] }) })

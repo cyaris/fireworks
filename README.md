@@ -4,12 +4,21 @@ Svelte package and demo app for rendering animated fireworks. It exposes reusabl
 
 ## Live usage
 
-The fireworks can be viewed live on <a href="https://charlieyaris.com/" target="_blank" rel="noopener noreferrer">charlieyaris.com</a> by clicking the fireworks button on the top left of the navigation bar. They are also incorporated into the <a href="https://github.com/cyaris/profile_photo" target="_blank" rel="noopener noreferrer">profile photo</a> on the <a href="https://charlieyaris.com/" target="_blank" rel="noopener noreferrer">home page</a> and into <a href="https://github.com/cyaris/mastermind" target="_blank" rel="noopener noreferrer">Mastermind</a>, which can be played on the <a href="https://charlieyaris.com/mastermind/" target="_blank" rel="noopener noreferrer">project page</a>.
+The fireworks appear in three live contexts:
+
+- the top-left navigation button on <a href="https://charlieyaris.com/" target="_blank" rel="noopener noreferrer">charlieyaris.com</a>
+- the <a href="https://github.com/cyaris/profile_photo" target="_blank" rel="noopener noreferrer">profile photo</a> on the home page
+- <a href="https://github.com/cyaris/mastermind" target="_blank" rel="noopener noreferrer">Mastermind</a> on its <a href="https://charlieyaris.com/mastermind/" target="_blank" rel="noopener noreferrer">project page</a>
 
 ## What it does
 
 - Renders a full-window Canvas 2D fireworks scene, animated with one coordinated `requestAnimationFrame` loop
-- Launches randomized firework bursts using D3 timers, easing, random distributions, and color interpolation, driving plain numerical particle state that is drawn to Canvas each frame
+- Launches randomized firework bursts with D3:
+  - color interpolation
+  - easing
+  - random distributions
+  - timers
+- Draws plain numerical particle state to Canvas each frame
 - Provides a `FireworkShow` component that starts a configurable main show and finale
 - Exports both component and function entry points for other Svelte apps
 
@@ -84,9 +93,9 @@ This package keeps the core idea while expanding and improving on it, with adjus
 
 ## GitHub Actions Workflows
 
-These local wrappers inherit their reusable implementations from `cyaris/shared-automation`. Shared workflow behavior,
-inputs, and secrets are documented in the
-[shared-automation workflow reference](https://github.com/cyaris/shared-automation#workflows).
+These local wrappers inherit their reusable implementations from `cyaris/shared-automation`. The
+[shared-automation workflow reference](https://github.com/cyaris/shared-automation#workflows) documents shared
+behavior, inputs, and secrets.
 
 ### `.github/workflows/auto-create-dev-pr.yml`
 
@@ -95,13 +104,14 @@ The `Auto-create dev pull request` workflow runs on pushes to `dev` and calls th
 
 ### `.github/workflows/rollup.yml`
 
-The `Rollup` workflow runs on pushes to `dev` and `main` and on manual dispatch, then calls the
-[shared rollup workflow](https://github.com/cyaris/shared-automation#githubworkflowsrollupyml). Shared CI runs for every
-trigger; uploads run on `dev` and `main` pushes or manual dispatches to build the rollup bundles and upload them to
-`s3://cyaris.github.io/fireworks/`. The shared workflow selects production versus staged uploads by the triggering
-branch rather than a manual toggle: `main` pushes and manual dispatches from `main` upload unprefixed production
-bundles, while `dev` pushes and manual dispatches from `dev` upload staged `test_bundle.*` names. This project uploads
-both `bundle.*` and `bundle2.*` artifacts.
+The `Rollup` workflow calls the
+[shared rollup workflow](https://github.com/cyaris/shared-automation#githubworkflowsrollupyml) with these local details:
+
+- triggers: pushes to `dev` and `main`, plus manual dispatch
+- destination: `s3://cyaris.github.io/fireworks/`
+- production naming: unprefixed bundles from `main`
+- staged naming: `test_bundle.*` from `dev`
+- bundle sets: `bundle.*` and `bundle2.*`
 
 This workflow checks out `svelte-lib` at the latest `main` commit as a local dependency. The shared workflow resolves
 that branch to an exact commit SHA before checkout.
