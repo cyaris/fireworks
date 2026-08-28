@@ -110,7 +110,7 @@ The `Rollup` workflow calls the
 - triggers: pushes to `dev` and `main`, plus manual dispatch
 - destination: `s3://cyaris.github.io/fireworks/`
 - production naming: unprefixed bundles from `main`
-- staged naming: `test_bundle.*` from `dev`
+- staged naming: `dev_bundle.*` from `dev`
 - bundle sets: `bundle.*` and `bundle2.*`
 
 This workflow checks out `svelte-lib` from `dev` for staged runs and from `main` for production runs. The shared
