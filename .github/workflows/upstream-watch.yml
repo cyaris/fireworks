@@ -9,9 +9,9 @@ permissions:
   contents: read
 
 jobs:
-  upstream-watch:
+  upstream-watch-production:
     concurrency:
-      group: upstream-watch
+      group: upstream-watch-production
       cancel-in-progress: false
     permissions:
       contents: read
@@ -19,6 +19,22 @@ jobs:
     uses: cyaris/shared-automation/.github/workflows/upstream-watch.yml@main
     with:
       dispatch-ref: main
+    secrets:
+      CHECKOUT_TOKEN: ${{ secrets.CHECKOUT_TOKEN }}
+      RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+
+  upstream-watch-dev:
+    concurrency:
+      group: upstream-watch-dev
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      actions: write
+    uses: cyaris/shared-automation/.github/workflows/upstream-watch.yml@main
+    with:
+      svelte-lib-ref: dev
+      allow-nonproduction-refs: true
+      dispatch-ref: dev
     secrets:
       CHECKOUT_TOKEN: ${{ secrets.CHECKOUT_TOKEN }}
       RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
