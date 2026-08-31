@@ -1,8 +1,7 @@
 import { easeCircle, easeQuad } from "d3-ease"
 import { interpolateRgb } from "d3-interpolate"
 import { randomNormal } from "d3-random"
-import { timeout } from "d3-timer"
-import { configureCanvas2D, createAnimationLoop, getEasedProgress } from "svelte-lib/functions"
+import { configureCanvas2D, createAnimationLoop, createPausableTimer, getEasedProgress } from "svelte-lib/functions"
 
 import palettes from "../static/palettes.json"
 
@@ -257,7 +256,7 @@ export function launchFireworkShow(totalFireworksMain, totalFireworksFinale, ran
       previousFinaleDelay = delay
     }
 
-    timers.push(timeout(launchFireworkBurst, delay))
+    timers.push(createPausableTimer(launchFireworkBurst, delay))
   }
 
   return () => timers.forEach(timer => timer.stop())
