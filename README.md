@@ -13,11 +13,10 @@ The fireworks appear in three live contexts:
 ## What it does
 
 - Renders a full-window Canvas 2D fireworks scene, animated with one coordinated `requestAnimationFrame` loop
-- Launches randomized firework bursts with D3:
-  - color interpolation
-  - easing
-  - random distributions
-  - timers
+- Launches randomized firework bursts with:
+  - perceptual OKLCH color interpolation from `svelte-lib`
+  - easing and random distributions from D3
+  - visibility-aware timers
 - Draws plain numerical particle state to Canvas each frame
 - Provides a `FireworkShow` component that starts a configurable main show and finale
 - Exports both component and function entry points for other Svelte apps

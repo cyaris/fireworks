@@ -1,7 +1,12 @@
 import { easeCircle, easeQuad } from "d3-ease"
-import { interpolateRgb } from "d3-interpolate"
 import { randomNormal } from "d3-random"
-import { configureCanvas2D, createAnimationLoop, createPausableTimer, getEasedProgress } from "svelte-lib/functions"
+import {
+  configureCanvas2D,
+  createAnimationLoop,
+  createPausableTimer,
+  getEasedProgress,
+  interpolateOklch
+} from "svelte-lib/functions"
 
 import palettes from "../static/palettes.json"
 
@@ -93,7 +98,7 @@ function createBurst({ height, width }) {
       initialFill: randomPalette[particle.i % randomPalette.length],
       finalX: 2 * particle.targetX - launchXLoc,
       finalY: 2 * particle.targetY - explosionYLoc,
-      fadeColorScale: interpolateRgb(explodedFills[index], fadedFills[index])
+      fadeColorScale: interpolateOklch(explodedFills[index], fadedFills[index])
     }))
   }
 }

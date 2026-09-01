@@ -43,7 +43,6 @@
   },
   "dependencies": {
     "d3-ease": "3",
-    "d3-interpolate": "3",
     "d3-random": "3",
     "linklocal": "^2.8.2",
     "svelte": "4.2.20",
