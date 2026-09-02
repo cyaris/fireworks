@@ -5,26 +5,23 @@ import {
   createAnimationLoop,
   createPausableTimer,
   getEasedProgress,
-  interpolateOklch
+  interpolateOklch,
+  lerp
 } from "svelte-lib/functions"
 
 import palettes from "../static/palettes.json"
 
-// tail particles (index <= fireWorkTailSize) launch staggered by tailDelaySize ms each, then
+// tail particles (index <= fireworkTailSize) launch staggered by tailDelaySize ms each, then
 // all catch up and become fully opaque together once the slowest tail particle would have.
 let launchRadius = 3
 let launchDuration = 1000
-let fireWorkTailSize = 90
+let fireworkTailSize = 90
 let tailDelaySize = 2.5
 let explosionRadius = 5
 let finalRadius = 10
 
 let activeBursts = []
 let fireworkScene = []
-
-function lerp(from, to, progress) {
-  return from + (to - from) * progress
-}
 
 function createBurst({ height, width }) {
   // defining y parameter for the height of the launch
@@ -62,23 +59,12 @@ function createBurst({ height, width }) {
   })
 
   let randomPalette = palettes[Math.floor(Math.random() * palettes.length)]
-  let paletteIndex = 0
-  let nextPaletteColor = () => {
-    let color = randomPalette[paletteIndex]
-    paletteIndex = (paletteIndex + 1) % randomPalette.length
-    return color
-  }
-
-  // the explosion-burst fill lands back on each particle's own initial color (the rotating cursor
-  // wraps around exactly once), so only the final fade-out color is a genuinely new palette color.
-  let explodedFills = particles.map(() => nextPaletteColor())
-  let fadedFills = particles.map(() => nextPaletteColor())
 
   let launchSpeed = launchDuration / (height + launchRadius - launchYLoc)
   let dropDuration = launchSpeed * explosionDrop
   let burstDuration = Math.random() * 100 + 500
   let fadeDuration = Math.random() * 1500 + 1000
-  let explodeTime = launchDuration + dropDuration + fireWorkTailSize * tailDelaySize
+  let explodeTime = launchDuration + dropDuration + fireworkTailSize * tailDelaySize
 
   return {
     start: performance.now(),
@@ -91,15 +77,20 @@ function createBurst({ height, width }) {
     burstDuration,
     fadeDuration,
     totalDuration: explodeTime + burstDuration + fadeDuration,
-    particles: particles.map((particle, index) => ({
-      ...particle,
-      delay: particle.i <= fireWorkTailSize ? particle.i * tailDelaySize : 0,
-      initialOpacity: particle.i > 0 && particle.i <= fireWorkTailSize ? 0.15 : 1,
-      initialFill: randomPalette[particle.i % randomPalette.length],
-      finalX: 2 * particle.targetX - launchXLoc,
-      finalY: 2 * particle.targetY - explosionYLoc,
-      fadeColorScale: interpolateOklch(explodedFills[index], fadedFills[index])
-    }))
+    particles: particles.map((particle, index) => {
+      // the burst fill is the particle's own initial color; only the fade-out color advances the palette
+      let initialFill = randomPalette[particle.i % randomPalette.length]
+
+      return {
+        ...particle,
+        delay: particle.i <= fireworkTailSize ? particle.i * tailDelaySize : 0,
+        initialOpacity: particle.i > 0 && particle.i <= fireworkTailSize ? 0.15 : 1,
+        initialFill,
+        finalX: 2 * particle.targetX - launchXLoc,
+        finalY: 2 * particle.targetY - explosionYLoc,
+        fadeColorScale: interpolateOklch(initialFill, randomPalette[(particles.length + index) % randomPalette.length])
+      }
+    })
   }
 }
 
@@ -219,10 +210,13 @@ function renderFrame(now) {
   }
   if (!activeBursts.length) return false
 
-  let { context } = configureCanvas2D({ canvas, height: canvas.clientHeight, width: canvas.clientWidth })
+  let height = canvas.clientHeight
+  let width = canvas.clientWidth
+
+  let { context } = configureCanvas2D({ canvas, height, width })
   if (!context) return true
 
-  context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight)
+  context.clearRect(0, 0, width, height)
   drawFireworkScene(context, getFireworkScene(now))
 
   return true
@@ -243,7 +237,7 @@ export function launchFireworkBurst() {
 
 export function launchFireworkShow(totalFireworksMain, totalFireworksFinale, randomIntervalMsInput) {
   let fireworkIntervalMain = 1540
-  let fireWorkIntervalFinale = 500
+  let fireworkIntervalFinale = 500
   let regularShowMinDuration = fireworkIntervalMain * (totalFireworksMain - 1)
   let previousFinaleDelay = 0
   let timers = []
@@ -256,7 +250,7 @@ export function launchFireworkShow(totalFireworksMain, totalFireworksFinale, ran
       delay = Math.max(0, fireworkIntervalMain * i + randomInterval)
     } else {
       let candidateDelay =
-        regularShowMinDuration + fireWorkIntervalFinale * (i - (totalFireworksMain - 1)) + randomInterval
+        regularShowMinDuration + fireworkIntervalFinale * (i - (totalFireworksMain - 1)) + randomInterval
       delay = Math.max(0, previousFinaleDelay, candidateDelay)
       previousFinaleDelay = delay
     }

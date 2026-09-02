@@ -111,18 +111,14 @@ The `Rollup` workflow calls the
 - production naming: unprefixed bundles from `main`
 - staged naming: `dev_bundle.*` from `dev`
 - bundle sets: `bundle.*` and `bundle2.*`
-
-This workflow checks out `svelte-lib` from `dev` for staged runs and from `main` for production runs. The shared
-workflow resolves the selected branch to an exact commit SHA before checkout.
+- local dependency: `svelte-lib` `dev` for staged runs and `main` for production runs, resolved to an exact SHA
 
 ### `.github/workflows/upstream-watch.yml`
 
 The `Upstream Watch` workflow runs daily at 12:23 UTC, one hour before the GitHub Pages build for `cyaris.github.io`,
 and on manual dispatch, then calls the
 [shared upstream-watch workflow](https://github.com/cyaris/shared-automation#githubworkflowsupstream-watchyml). It
-watches `svelte-lib`'s `dev` and `main` branch commits independently. When either branch moves, it dispatches this
-repository's `Rollup` workflow on the matching branch so staged and production bundles pick up the corresponding
-upstream code without waiting for a push here.
+watches `svelte-lib`'s `dev` and `main` branch commits independently.
 
 ### `.github/workflows/auto-release.yml`
 
