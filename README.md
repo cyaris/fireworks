@@ -86,8 +86,9 @@ use the `FireworkCanvas` component, or render an equivalent `canvas` element you
 
 ## Credits
 
-The firework burst process is adapted from this D3 blocks example:
-<a href="http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5" target="_blank" rel="noopener noreferrer">http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5</a>.
+Credit is owed to Mike Rossetti's
+<a href="http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5" target="_blank" rel="noopener noreferrer">D3.js Hanabi</a>
+project for getting me started on coding my own D3.js fireworks.
 This package keeps the core idea while expanding and improving on it, with adjustments for local preferences and package-version differences.
 
 ## GitHub Actions Workflows
