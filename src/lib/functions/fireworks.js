@@ -249,9 +249,11 @@ export function launchFireworkShow(totalFireworksMain, totalFireworksFinale, ran
     if (i < totalFireworksMain) {
       delay = Math.max(0, fireworkIntervalMain * i + randomInterval)
     } else {
-      let candidateDelay =
+      delay = Math.max(
+        0,
+        previousFinaleDelay,
         regularShowMinDuration + fireworkIntervalFinale * (i - (totalFireworksMain - 1)) + randomInterval
-      delay = Math.max(0, previousFinaleDelay, candidateDelay)
+      )
       previousFinaleDelay = delay
     }
 
