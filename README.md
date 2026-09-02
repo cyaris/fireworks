@@ -13,11 +13,10 @@ The fireworks appear in three live contexts:
 ## What it does
 
 - Renders a full-window Canvas 2D fireworks scene, animated with one coordinated `requestAnimationFrame` loop
-- Launches randomized firework bursts with D3:
-  - color interpolation
-  - easing
-  - random distributions
-  - timers
+- Launches randomized firework bursts with:
+  - perceptual OKLCH color interpolation from `svelte-lib`
+  - easing and random distributions from D3
+  - visibility-aware timers
 - Draws plain numerical particle state to Canvas each frame
 - Provides a `FireworkShow` component that starts a configurable main show and finale
 - Exports both component and function entry points for other Svelte apps
@@ -87,8 +86,9 @@ use the `FireworkCanvas` component, or render an equivalent `canvas` element you
 
 ## Credits
 
-The firework burst process is adapted from this D3 blocks example:
-<a href="http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5" target="_blank" rel="noopener noreferrer">http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5</a>.
+Credit is owed to Mike Rossetti's
+<a href="http://bl.ocks.org/s2t2/53e96654487b4b0ef6e5" target="_blank" rel="noopener noreferrer">D3.js Hanabi</a>
+project for getting me started on coding my own D3.js fireworks.
 This package keeps the core idea while expanding and improving on it, with adjustments for local preferences and package-version differences.
 
 ## GitHub Actions Workflows
@@ -99,27 +99,25 @@ behavior, inputs, and secrets.
 
 ### `.github/workflows/auto-create-dev-pr.yml`
 
-The `Auto-create dev pull request` workflow runs on pushes to `dev` and calls the
+Runs on pushes to `dev` and calls the
 [shared auto-create-dev-pr workflow](https://github.com/cyaris/shared-automation#githubworkflowsauto-create-dev-pryml).
 
 ### `.github/workflows/rollup.yml`
 
-The `Rollup` workflow calls the
-[shared rollup workflow](https://github.com/cyaris/shared-automation#githubworkflowsrollupyml) with these local details:
+Calls the [shared rollup workflow](https://github.com/cyaris/shared-automation#githubworkflowsrollupyml) with these
+local details:
 
 - triggers: pushes to `dev` and `main`, plus manual dispatch
 - destination: `s3://cyaris.github.io/fireworks/`
 - production naming: unprefixed bundles from `main`
 - staged naming: `dev_bundle.*` from `dev`
 - bundle sets: `bundle.*` and `bundle2.*`
-
-This workflow checks out `svelte-lib` from `dev` for staged runs and from `main` for production runs. The shared
-workflow resolves the selected branch to an exact commit SHA before checkout.
+- local dependency: `svelte-lib` `dev` for staged runs and `main` for production runs, resolved to an exact SHA
 
 ### `.github/workflows/upstream-watch.yml`
 
-The `Upstream Watch` workflow runs daily at 12:23 UTC, one hour before the GitHub Pages build for `cyaris.github.io`,
-and on manual dispatch, then calls the
+Runs daily at 12:23 UTC, one hour before the GitHub Pages build for `cyaris.github.io`, and on manual dispatch, then
+calls the
 [shared upstream-watch workflow](https://github.com/cyaris/shared-automation#githubworkflowsupstream-watchyml). It
 watches `svelte-lib`'s `dev` and `main` branch commits independently. When either branch moves, it dispatches this
 repository's `Rollup` workflow on the matching branch so staged and production bundles pick up the corresponding
@@ -127,14 +125,15 @@ upstream code without waiting for a push here.
 
 ### `.github/workflows/auto-release.yml`
 
-The `Auto release` workflow runs from manual dispatch only and calls the
+Runs from manual dispatch only and calls the
 [shared auto-release workflow](https://github.com/cyaris/shared-automation#githubworkflowsauto-releaseyml). This
 repository contributes `.github/release-policy.yml` overrides; manual runs read the shared release policy from `main`.
-Release creation or existing-release updates require reviewing the generated plan and explicitly enabling publication for
-an approved run.
+Release creation or existing-release updates require reviewing the generated plan and explicitly enabling publication
+for an approved run.
 
 ### `.github/workflows/workflow-validation.yml`
 
-The `Workflow validation` workflow runs on local workflow and automation configuration changes, then calls the
+Runs on `dev` and `main` pushes that change `.github/release-policy.yml`, `.github/workflows/**`, or `renovate.json`,
+and on manual dispatch, then calls the
 [shared workflow-validation workflow](https://github.com/cyaris/shared-automation#githubworkflowsworkflow-validationyml)
 to validate rollup upload wrapper logic, release-policy configuration, and Renovate configuration.
