@@ -17,6 +17,7 @@ let launchRadius = 3
 let launchDuration = 1000
 let fireworkTailSize = 90
 let tailDelaySize = 2.5
+
 let explosionRadius = 5
 let finalRadius = 10
 
