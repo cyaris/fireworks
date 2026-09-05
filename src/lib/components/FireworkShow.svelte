@@ -7,21 +7,22 @@
   export let totalFireworksMain = 75
   export let totalFireworksFinale = 25
   export let randomIntervalMsInput = 2500
-
   export let fireworkShow = true
+
   let mounted = false
   let hasLaunched = false
+  let canvas
   let stopFireworkShow = () => {}
 
   onMount(() => (mounted = true))
   onDestroy(() => stopFireworkShow())
 
   $: {
-    if (mounted && fireworkShow && !hasLaunched) {
-      stopFireworkShow = launchFireworkShow(totalFireworksMain, totalFireworksFinale, randomIntervalMsInput)
+    if (mounted && canvas && fireworkShow && !hasLaunched) {
+      stopFireworkShow = launchFireworkShow(totalFireworksMain, totalFireworksFinale, randomIntervalMsInput, canvas)
       hasLaunched = true
     }
   }
 </script>
 
-<FireworkCanvas />
+<FireworkCanvas on:ready={({ detail }) => (canvas = detail.canvas)} />
