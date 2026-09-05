@@ -5,4 +5,4 @@ import { mountEmbeddedRoot } from "svelte-lib/functions/dom"
 
 import FireworkCanvas from "./lib/components/App.svelte"
 
-new FireworkCanvas({ target: mountEmbeddedRoot({ classes: ["fireworks"] }) })
+new FireworkCanvas({ props: { id: "fireworks" }, target: mountEmbeddedRoot({ classes: ["fireworks"] }) })

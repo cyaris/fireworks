@@ -9,7 +9,7 @@ import {
 import { interpolateOklch } from "svelte-lib/functions/color"
 import { lerp } from "svelte-lib/functions/math"
 
-import palettes from "../static/palettes.json"
+import palettes from "../static/palettes.js"
 
 // tail particles (index <= fireworkTailSize) launch staggered by tailDelaySize ms each, then
 // all catch up and become fully opaque together once the slowest tail particle would have.
@@ -21,8 +21,7 @@ let tailDelaySize = 2.5
 let explosionRadius = 5
 let finalRadius = 10
 
-let activeBursts = []
-let fireworkScene = []
+let canvasStates = new WeakMap()
 
 function createBurst({ height, width }) {
   // defining y parameter for the height of the launch
@@ -175,7 +174,7 @@ function getParticleDraw(burst, particle, elapsed) {
   }
 }
 
-function getFireworkScene(now) {
+function getFireworkScene(activeBursts, fireworkScene, now) {
   fireworkScene.length = 0
   activeBursts.forEach(burst => {
     let elapsed = now - burst.start
@@ -201,15 +200,14 @@ function drawFireworkScene(context, scene) {
   context.restore()
 }
 
-function renderFrame(now) {
-  activeBursts = activeBursts.filter(burst => now - burst.start < burst.totalDuration)
+function renderFrame(canvas, state, now) {
+  state.activeBursts = state.activeBursts.filter(burst => now - burst.start < burst.totalDuration)
 
-  let canvas = document.getElementById("fireworks")
-  if (!canvas) {
-    activeBursts = []
+  if (!canvas || canvas.isConnected === false) {
+    state.activeBursts = []
     return false
   }
-  if (!activeBursts.length) return false
+  if (!state.activeBursts.length) return false
 
   let height = canvas.clientHeight
   let width = canvas.clientWidth
@@ -218,33 +216,51 @@ function renderFrame(now) {
   if (!context) return true
 
   context.clearRect(0, 0, width, height)
-  drawFireworkScene(context, getFireworkScene(now))
+  drawFireworkScene(context, getFireworkScene(state.activeBursts, state.fireworkScene, now))
 
   return true
 }
 
-let animationLoop = createAnimationLoop(renderFrame)
+function getCanvasState(canvas) {
+  let state = canvasStates.get(canvas)
+  if (!state) {
+    state = { activeBursts: [], fireworkScene: [] }
+    state.animationLoop = createAnimationLoop(now => renderFrame(canvas, state, now))
+    canvasStates.set(canvas, state)
+  }
 
-export function launchFireworkBurst() {
-  let canvas = document.getElementById("fireworks")
+  return state
+}
+
+function getDefaultCanvas() {
+  return globalThis.document?.getElementById("fireworks")
+}
+
+export function launchFireworkBurst(canvas = getDefaultCanvas()) {
   let width = canvas && canvas.clientWidth
   let height = canvas && canvas.clientHeight
 
   if (width && height) {
-    activeBursts.push(createBurst({ height, width }))
-    animationLoop.start()
+    let state = getCanvasState(canvas)
+    state.activeBursts.push(createBurst({ height, width }))
+    state.animationLoop.start()
   }
 }
 
-export function launchFireworkShow(totalFireworksMain, totalFireworksFinale, randomIntervalMsInput) {
+export function getFireworkShowDelays(
+  totalFireworksMain,
+  totalFireworksFinale,
+  randomIntervalMsInput,
+  random = Math.random
+) {
   let fireworkIntervalMain = 1540
   let fireworkIntervalFinale = 500
   let regularShowMinDuration = fireworkIntervalMain * (totalFireworksMain - 1)
   let previousFinaleDelay = 0
-  let timers = []
+  let delays = []
 
   for (let i = 0; i < totalFireworksMain + totalFireworksFinale; i++) {
-    let randomInterval = i == 0 ? 0.5 : Math.random() * 2 * randomIntervalMsInput - randomIntervalMsInput
+    let randomInterval = i == 0 ? 0.5 : random() * 2 * randomIntervalMsInput - randomIntervalMsInput
     let delay
 
     if (i < totalFireworksMain) {
@@ -258,8 +274,18 @@ export function launchFireworkShow(totalFireworksMain, totalFireworksFinale, ran
       previousFinaleDelay = delay
     }
 
-    timers.push(createPausableTimer(launchFireworkBurst, delay))
+    delays.push(delay)
   }
+
+  return delays
+}
+
+export function launchFireworkShow(totalFireworksMain, totalFireworksFinale, randomIntervalMsInput, canvas) {
+  let timers = getFireworkShowDelays(totalFireworksMain, totalFireworksFinale, randomIntervalMsInput).map(delay =>
+    createPausableTimer(() => launchFireworkBurst(canvas), delay)
+  )
 
   return () => timers.forEach(timer => timer.stop())
 }
+
+export { getParticleDraw }
