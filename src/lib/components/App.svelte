@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte"
-  import { observeZoomStableViewport } from "svelte-lib/functions"
+  import { observeZoomStableViewport } from "svelte-lib/functions/dom"
 
   let width
   let height

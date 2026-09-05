@@ -4,10 +4,10 @@ import {
   configureCanvas2D,
   createAnimationLoop,
   createPausableTimer,
-  getEasedProgress,
-  interpolateOklch,
-  lerp
-} from "svelte-lib/functions"
+  getEasedProgress
+} from "svelte-lib/functions/canvas"
+import { interpolateOklch } from "svelte-lib/functions/color"
+import { lerp } from "svelte-lib/functions/math"
 
 import palettes from "../static/palettes.json"
 
