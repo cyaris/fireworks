@@ -66,7 +66,7 @@ reviews:
         - Responsive-layout problems, clipping, overflow, and unexpected horizontal scrolling
         - Route-base or embedded GitHub Pages path mistakes
         - Imports that bypass package exports or depend on unpublished source paths
-        - D3 state, scale, transition, and data-join mistakes that make charts stale or nondeterministic
+        - Canvas sizing, animation-state, and D3 easing or randomization mistakes that make bursts stale or nondeterministic
         - Changes that break shared component APIs used by downstream apps
 
     - path: "**/*.{css,scss,svelte}"
@@ -91,10 +91,11 @@ reviews:
     - path: "src/lib/**"
       instructions: |
         Check for:
-        - Public component or function API changes that break profile_photo or mastermind
-        - Animation timing, randomization, and cleanup mistakes
-        - Canvas or SVG rendering regressions across reduced motion, small screens, and repeated mounts
-        - Palette or asset changes that break exported package consumers
+        - Public component or function API changes that break pixel_portrait or mastermind
+        - Time-based burst, finale, easing, randomization, or boundary calculations that skip or duplicate fireworks
+        - requestAnimationFrame or pausable-timer lifecycle changes that keep work running while hidden or after unmount
+        - Canvas setup, device-pixel-ratio, resize, zoom, or missing-element behavior that leaves stale pixels or incorrect geometry
+        - Palette and drawing changes that break exact configured colors, alpha, compositing, or exported package consumers
 
     - path: "**/.github/workflows/*.{yml,yaml}"
       instructions: |
@@ -104,7 +105,8 @@ reviews:
         - Unsafe use of pull_request_target
         - Incorrect branch or path filters
         - Deployment steps that could expose secrets
-        - Rollup upload workflows drifting from the shared svelte-lib composite action contract
+        - Rollup, upstream-watch, release, or validation callers drifting from shared-automation contracts
+        - Staged and production bundle names, bundle2 outputs, dependency refs, or S3 prefixes diverging from repository guidance
 
     - path: "**/*.{md,markdown}"
       instructions: |
