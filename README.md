@@ -12,7 +12,7 @@ The fireworks appear in three live contexts:
 
 ## What it does
 
-- Renders a full-window Canvas 2D fireworks scene, animated with one coordinated `requestAnimationFrame` loop
+- Renders a full-window Canvas 2D fireworks scene, with one `requestAnimationFrame` loop per canvas
 - Launches randomized firework bursts with:
   - perceptual OKLCH color interpolation from `svelte-lib`
   - easing and random distributions from D3

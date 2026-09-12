@@ -15,7 +15,7 @@ jobs:
     uses: cyaris/shared-automation/.github/workflows/ci.yml@main
     with:
       local-dependency-repositories: |
-        cyaris/svelte-lib:svelte-lib:${{ github.ref_name }}
+        cyaris/svelte-lib:svelte-lib:${{ github.ref_name == 'dev' && 'dev' || 'main' }}
       run-test: true
     secrets:
       CHECKOUT_TOKEN: ${{ secrets.CHECKOUT_TOKEN }}
