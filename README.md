@@ -107,7 +107,7 @@ Runs on pushes to `dev` and calls the
 
 ### `.github/workflows/ci.yml`
 
-Runs on pushes to `dev` and `main` and on manual dispatch, then calls the
+Runs on pushes to `dev` and on manual dispatch, then calls the
 [shared CI workflow](https://github.com/cyaris/shared-automation#githubworkflowsciyml) with `svelte-lib` checked out
 as a local dependency (`dev` for `dev` runs, `main` otherwise) and `npm test` enabled alongside the shared format, lint,
 and check steps.
@@ -117,7 +117,7 @@ and check steps.
 Calls the [shared rollup workflow](https://github.com/cyaris/shared-automation#githubworkflowsrollupyml) with these
 local details:
 
-- triggers: pushes to `dev` and `main`, plus manual dispatch
+- triggers: pushes to `main`, plus manual and upstream-watch dispatches on `dev` or `main`
 - destination: `s3://cyaris.github.io/fireworks/`
 - production naming: unprefixed bundles from `main`
 - staged naming: `dev_bundle.*` from `dev`
