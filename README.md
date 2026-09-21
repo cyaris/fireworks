@@ -105,6 +105,13 @@ behavior, inputs, and secrets.
 Runs on pushes to `dev` and calls the
 [shared auto-create-dev-pr workflow](https://github.com/cyaris/shared-automation#githubworkflowsauto-create-dev-pryml).
 
+### `.github/workflows/ci.yml`
+
+Runs on pushes to `dev` and `main` and on manual dispatch, then calls the
+[shared CI workflow](https://github.com/cyaris/shared-automation#githubworkflowsciyml) with `svelte-lib` checked out
+as a local dependency (`dev` for `dev` runs, `main` otherwise) and `npm test` enabled alongside the shared format, lint,
+and check steps.
+
 ### `.github/workflows/rollup.yml`
 
 Calls the [shared rollup workflow](https://github.com/cyaris/shared-automation#githubworkflowsrollupyml) with these
