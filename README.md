@@ -12,13 +12,14 @@ The fireworks appear in three live contexts:
 
 ## What it does
 
-- Renders a full-window Canvas 2D fireworks scene, animated with one coordinated `requestAnimationFrame` loop
+- Renders a full-window Canvas 2D fireworks scene, with one `requestAnimationFrame` loop per canvas
 - Launches randomized firework bursts with:
   - perceptual OKLCH color interpolation from `svelte-lib`
   - easing and random distributions from D3
   - visibility-aware timers
 - Draws plain numerical particle state to Canvas each frame
-- Provides a `FireworkShow` component that starts a configurable main show and finale
+- Provides a `FireworkShow` component that starts a configurable main show and finale on its own canvas
+- Keeps animation state isolated per canvas so the navbar burst and embedded shows can run concurrently
 - Exports both component and function entry points for other Svelte apps
 
 ## Project layout
@@ -55,6 +56,7 @@ npm run rollup
 Run validation:
 
 ```sh
+npm test
 npm run check
 npm run lint
 npm run format:check
@@ -80,9 +82,10 @@ Import the Svelte component when an app needs a ready-made show:
 </div>
 ```
 
-The lower-level functions are also available from `fireworks/functions`. Calling `launchFireworkBurst` directly requires
-a `<canvas id="fireworks">` element already present in the DOM, since it targets that element instead of creating one;
-use the `FireworkCanvas` component, or render an equivalent `canvas` element yourself, before calling the function.
+The lower-level functions are also available from `fireworks/functions`. `launchFireworkBurst()` without an argument
+targets the `<canvas id="fireworks">` used by the standalone navbar bundle. Reusable components pass a canvas element
+explicitly, which gives every canvas its own active bursts and animation loop. Reserve that ID for the navbar canvas;
+use `FireworkCanvas`, `FireworkShow`, or `launchFireworkBurst(canvas)` for any additional instance.
 
 ## Credits
 
@@ -101,6 +104,13 @@ behavior, inputs, and secrets.
 
 Runs on pushes to `dev` and calls the
 [shared auto-create-dev-pr workflow](https://github.com/cyaris/shared-automation#githubworkflowsauto-create-dev-pryml).
+
+### `.github/workflows/ci.yml`
+
+Runs on pushes to `dev` and `main` and on manual dispatch, then calls the
+[shared CI workflow](https://github.com/cyaris/shared-automation#githubworkflowsciyml) with `svelte-lib` checked out
+as a local dependency (`dev` for `dev` runs, `main` otherwise) and `npm test` enabled alongside the shared format, lint,
+and check steps.
 
 ### `.github/workflows/rollup.yml`
 
