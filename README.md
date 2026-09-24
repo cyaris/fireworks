@@ -107,7 +107,7 @@ Runs on pushes to `dev` and calls the
 
 ### `.github/workflows/ci.yml`
 
-Runs on pushes to `dev` and on manual dispatch, then calls the
+Runs on manual dispatch, then calls the
 [shared CI workflow](https://github.com/cyaris/shared-automation#githubworkflowsciyml) with `svelte-lib` checked out
 as a local dependency (`dev` for `dev` runs, `main` otherwise) and `npm test` enabled alongside the shared format, lint,
 and check steps.
@@ -143,7 +143,7 @@ for an approved run.
 
 ### `.github/workflows/workflow-validation.yml`
 
-Runs on `dev` and `main` pushes that change `.github/release-policy.yml`, `.github/workflows/**`, or `renovate.json`,
+Runs on `main` pushes that change `.github/release-policy.yml`, `.github/workflows/**`, or `renovate.json`,
 and on manual dispatch, then calls the
 [shared workflow-validation workflow](https://github.com/cyaris/shared-automation#githubworkflowsworkflow-validationyml)
 to validate rollup upload wrapper logic, release-policy configuration, and Renovate configuration.
