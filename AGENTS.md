@@ -10,6 +10,7 @@
   - `embedded-bundles.md`
   - `jekyll-hosting.md`
   - `charts.md`
+  - `web-pages.md`
 
 ## Shared Conventions
 
@@ -28,7 +29,3 @@
 - Keep firework runtime state and animation loops scoped to their canvas. Reusable components must pass their canvas
   explicitly; reserve `id="fireworks"` and the default DOM lookup for the standalone navbar bundle so concurrent
   embedded shows cannot redirect or clear one another.
-
-## Rollup Delivery
-
-- Project-specific Rollup inputs include the S3 prefix and bundle file list.
