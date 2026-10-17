@@ -24,9 +24,8 @@
 
 ## Embedded Bundles
 
-- Preserve documented embedded bundle outputs unless deliberately changing host-page integration.
-- Keep the root `Rollup` workflow's bundle file list aligned with the documented embedded outputs, including
-  `bundle2.*`.
+- Preserve the documented embedded bundle outputs, including `bundle2.*`, unless deliberately changing host-page
+  integration, and keep the root `Rollup` workflow's bundle file list aligned with them.
 - Keep firework runtime state and animation loops scoped to their canvas. Reusable components must pass their canvas
   explicitly; reserve `id="fireworks"` and the default DOM lookup for the standalone navbar bundle so concurrent
   embedded shows cannot redirect or clear one another.
